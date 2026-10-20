@@ -1010,7 +1010,7 @@ begin
 end $$;
 
 -- ---------- 9b. ADMIN: CREATE / EDIT / DELETE EVENTS ----------
--- All of these only run through panel_call (the server checks the session + DEV badge).
+-- All of these only run through panel_call from the Host panel (the server checks the session + HOST badge).
 
 -- every event (including old ones) with a quick count of lobbies + players
 create or replace function public.admin_events (p_pass text) returns json language plpgsql security definer set search_path = public, extensions as $$
@@ -1185,15 +1185,16 @@ begin
     v_allowed := array[
       'admin_badges','admin_reports','admin_resolve_report','admin_give_tokens',
       'admin_set_ban','admin_set_badge','admin_roles','admin_set_role',
-      'admin_knives','admin_give_knife','admin_take_knife','admin_set_event',
-      'admin_events','admin_save_event','admin_delete_event'
+      'admin_knives','admin_give_knife','admin_take_knife'
     ];
   elsif p_panel = 'host' then
     v_need := 'host';
     v_allowed := array[
       'admin_state','admin_create','admin_set_mode','admin_draw','admin_start',
       'admin_close','admin_preview_pr','admin_save_result','admin_undo_result',
-      'admin_notifications','admin_delete_notification','admin_notify'
+      'admin_notifications','admin_delete_notification','admin_notify',
+      -- events are run by hosts
+      'admin_events','admin_save_event','admin_delete_event','admin_set_event'
     ];
   else
     raise exception 'FORBIDDEN';
