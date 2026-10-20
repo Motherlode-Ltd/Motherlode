@@ -719,6 +719,18 @@ body.in-app .sheet .rep .btn { width: 100%; }
 .acct-dl dd { margin: 0; font-weight: 500; text-align: right; word-break: break-word; }
 body.in-app #p-account #pf-msg.show { margin-top: 14px; }
 @media (max-width: 430px) { body.in-app .ab-logo-btn { display: flex; } }
+body.in-app #ad-pk { width: 100%; max-width: 420px; }
+.ad-sum { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; font-size: 13px; color: var(--tx3); }
+.ad-sum b { color: var(--tx); font-weight: 600; }
+.ad-sum .bad b { color: #ff8a82; }
+body.in-app #ad-pick { position: sticky; top: 70px; z-index: 5; box-shadow: 0 8px 24px rgba(0,0,0,.45); }
+@media (max-width: 760px) { body.in-app #ad-pick { position: static; box-shadow: none; } }
+.ownrow { display: flex; align-items: center; gap: 10px; padding: 9px 12px; margin-top: 8px; border: 1px solid var(--bd); border-radius: var(--r); background: var(--bg0); }
+.ownrow img { width: 20px; height: 20px; object-fit: contain; }
+.ownrow b { font-size: 13.5px; font-weight: 600; }
+.ownrow .btn { margin-left: auto; }
+body.in-app #p-admin .crow select, body.in-app #p-host .crow select { flex: 1; min-width: 200px; }
+body.in-app #p-admin #ad-pl .crow input { flex: 1; min-width: 200px; }
 body.in-app #p-host .lh small, body.in-app #p-host .timer small { letter-spacing: 0; text-transform: none; font-size: 12.5px; color: var(--tx3); }
 body.in-app #p-host .lob .lbl { text-transform: none; letter-spacing: 0; font-size: 12.5px; }
 @media (max-width: 700px) { .acct-row { grid-template-columns: minmax(0,1fr); padding: 18px 16px; gap: 12px; } }
@@ -977,55 +989,57 @@ body.in-app #p-host .lob .lbl { text-transform: none; letter-spacing: 0; font-si
                             <h2><img src="assets/report.webp" alt="" onerror="this.remove()">Player reports <span id="ad-repn" class="dim"></span></h2>
                             <div id="ad-replist"></div>
                         </div>
-                        <div class="card" id="ad-pl" style="margin-bottom:14px">
-                            <h2>Player tools</h2>
-                            <p class="dim" style="margin:8px 0 12px">Type a gamertag, then give / take tokens or ban / unban. (1,000 tokens = $1.)</p>
-                            <div class="crow">
-                                <input type="text" id="ad-pl-to" maxlength="16" placeholder="Gamertag" autocomplete="off" autocapitalize="off" spellcheck="false">
-                            </div>
-                            <div class="crow" style="margin-top:10px">
-                                <input type="number" id="ad-pl-amt" inputmode="numeric" placeholder="Tokens (use a minus to take away)" style="flex:1;min-width:200px;background:#000;border:1px solid var(--line);color:#fff;border-radius:10px;padding:13px;font:inherit;font-size:16px">
-                                <button class="btn" id="ad-pl-tk" type="button">Give tokens</button>
-                            </div>
-                            <div class="acts" style="margin-top:10px">
-                                <button class="btn ghost" id="ad-pl-ban" type="button">Ban player</button><button class="btn ghost" id="ad-pl-unban" type="button">Unban player</button>
-                            </div>
-                            <div class="msg" id="ad-pl-msg" hidden></div>
+                        <div class="card ad-pick" id="ad-pick">
+                            <div class="evadm-top"><h2>Player</h2><button class="btn ghost sm" id="ad-pk-reload" type="button">Refresh list</button></div>
+                            <p class="dim" style="margin:6px 0 12px">Pick a player. Everything below (tokens, ban, knives, badges, roles) is for this player only.</p>
+                            <select id="ad-pk" aria-label="Player"><option value="">Loading players…</option></select>
+                            <div class="ad-sum" id="ad-pk-sum" hidden></div>
+                            <div class="msg" id="ad-pk-msg" hidden></div>
                         </div>
-                        <div class="card" id="ad-kv">
-                            <h2>Give knives</h2>
-                            <p class="dim" style="margin:6px 0 12px">Type a gamertag, then tap <b>Give</b> on a knife. It lands in their inventory right away and they get a notification.</p>
-                            <div class="crow">
-                                <input type="text" id="ad-kv-to" maxlength="16" placeholder="Gamertag" autocomplete="off" autocapitalize="off" spellcheck="false">
-                            </div>
-                            <div class="msg" id="ad-kv-msg" hidden></div>
-                            <div class="kgrid" id="ad-kv-grid"></div>
-                        </div>
-                        <div class="card" id="ad-bd">
-                            <h2>Badges</h2>
-                            <p class="dim" style="margin:8px 0 12px">Give a HOST, DEV, YOUTUBER or TWITCH badge. It shows right before the player's name everywhere on the site. A player can have several.</p>
-                            <div class="crow">
-                                <input type="text" id="ad-bd-to" maxlength="16" placeholder="Gamertag" autocomplete="off" autocapitalize="off" spellcheck="false">
-                                <div class="seg" id="ad-bd-k">
-                                    <button type="button" data-b="host" class="on">Host</button><button type="button" data-b="dev">Dev</button><button type="button" data-b="youtuber">YouTuber</button><button type="button" data-b="twitch">Twitch</button>
+                        <div id="ad-for" hidden>
+                            <div class="card" id="ad-pl">
+                                <h2>Tokens &amp; ban</h2>
+                                <p class="dim" style="margin:6px 0 12px">Give tokens, or use a minus to take them away. 1,000 tokens = $1.</p>
+                                <div class="crow">
+                                    <input type="number" id="ad-pl-amt" inputmode="numeric" placeholder="Tokens, e.g. 500 or -200">
+                                    <button class="btn" id="ad-pl-tk" type="button">Update tokens</button>
                                 </div>
-                                <button class="btn" id="ad-bd-give" type="button">Give badge</button>
+                                <div class="acts" style="margin-top:10px">
+                                    <button class="btn ghost" id="ad-pl-ban" type="button">Ban player</button><button class="btn ghost" id="ad-pl-unban" type="button">Unban player</button>
+                                </div>
+                                <div class="msg" id="ad-pl-msg" hidden></div>
                             </div>
-                            <div class="msg" id="ad-bd-msg" hidden></div>
-                            <div class="lbl" style="margin-top:16px">Badge holders</div>
-                            <div id="ad-bd-list"></div>
-                        </div>
-                        <div class="card" id="ad-rl">
-                            <h2>Profile roles</h2>
-                            <p class="dim" style="margin:8px 0 12px">Give a role. It shows under the player's name on their profile. Tournament Winner 2x replaces Tournament Winner 1x.</p>
-                            <div class="crow">
-                                <input type="text" id="ad-rl-to" maxlength="16" placeholder="Gamertag" autocomplete="off" autocapitalize="off" spellcheck="false">
-                                <select id="ad-rl-k" style="flex:1;min-width:200px;background:#000;border:1px solid var(--line);color:#fff;border-radius:10px;padding:13px;font:inherit;font-size:16px"></select>
-                                <button class="btn" id="ad-rl-give" type="button">Give role</button>
+                            <div class="card" id="ad-kv">
+                                <h2>Knives &amp; items</h2>
+                                <div class="msg" id="ad-kv-msg" hidden></div>
+                                <div class="lbl" style="margin-top:12px" id="ad-kv-own-h">Owned</div>
+                                <div class="kgrid" id="ad-kv-own"></div>
+                                <div class="lbl" style="margin-top:20px">Give</div>
+                                <p class="dim" style="margin:2px 0 0">It lands in their inventory right away. One-of-a-kind knives already owned by someone else can be moved over.</p>
+                                <div class="kgrid" id="ad-kv-grid"></div>
                             </div>
-                            <div class="msg" id="ad-rl-msg" hidden></div>
-                            <div class="lbl" style="margin-top:16px">Role holders</div>
-                            <div id="ad-rl-list"></div>
+                            <div class="card" id="ad-bd">
+                                <h2>Badges</h2>
+                                <p class="dim" style="margin:6px 0 12px">Badges show right before the player’s name everywhere on the site.</p>
+                                <div id="ad-bd-list"></div>
+                                <div class="crow" style="margin-top:12px">
+                                    <div class="seg" id="ad-bd-k">
+                                        <button type="button" data-b="host" class="on">Host</button><button type="button" data-b="dev">Dev</button><button type="button" data-b="youtuber">YouTuber</button><button type="button" data-b="twitch">Twitch</button>
+                                    </div>
+                                    <button class="btn" id="ad-bd-give" type="button">Give badge</button>
+                                </div>
+                                <div class="msg" id="ad-bd-msg" hidden></div>
+                            </div>
+                            <div class="card" id="ad-rl">
+                                <h2>Profile roles</h2>
+                                <p class="dim" style="margin:6px 0 12px">Roles show under the player’s name on their profile. Tournament Winner 2x replaces Tournament Winner 1x.</p>
+                                <div id="ad-rl-list"></div>
+                                <div class="crow" style="margin-top:12px">
+                                    <select id="ad-rl-k" aria-label="Role"></select>
+                                    <button class="btn" id="ad-rl-give" type="button">Give role</button>
+                                </div>
+                                <div class="msg" id="ad-rl-msg" hidden></div>
+                            </div>
                         </div>
                     </main>
                 </div>
@@ -1061,7 +1075,7 @@ body.in-app #p-host .lob .lbl { text-transform: none; letter-spacing: 0; font-si
                                 <input type="text" id="ho-nt-title" maxlength="80" placeholder="Title, e.g. Game night Friday!" autocomplete="off">
                                 <textarea id="ho-nt-body" maxlength="500" placeholder="Message (500 characters max)"></textarea>
                                 <div class="crow">
-                                    <input type="text" id="ho-nt-to" maxlength="16" placeholder="Gamertag (blank = everyone)" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn" id="ho-nt-send" type="button">Send</button>
+                                    <select id="ho-nt-to" aria-label="Send to"><option value="">Everyone</option></select><button class="btn" id="ho-nt-send" type="button">Send</button>
                                 </div>
                                 <div class="msg" id="ho-nt-msg" hidden></div>
                             </div>
@@ -1621,7 +1635,7 @@ body.in-app #p-host .lob .lbl { text-transform: none; letter-spacing: 0; font-si
   function isDev(){ return hasBadge('dev'); }
   function isHost(){ return hasBadge('host'); }
   /* panels only call the server through this gateway: the server re-checks the session + badge on every call */
-  window.__ml={ panel:function(panel,fn,args){ return call('panel_call',{p_panel:panel,p_fn:fn,p_args:args||{}}); }, badges:function(){ return BADGES; },
+  window.__ml={ panel:function(panel,fn,args){ return call('panel_call',{p_panel:panel,p_fn:fn,p_args:args||{}}); }, players:function(){ return call('list_players',{p_search:''}); }, badges:function(){ return BADGES; },
     events:function(){ return (G&&G.events)||[]; }, evState:function(e){ return evState(e); }, evWhen:function(e){ var w=evWhen(e,CENTRAL); return w.day+' \u00b7 '+w.time; }, refresh:function(){ pollGames(); },
     lobbyEvent:function(id){ var ls=(G&&G.lobbies)||[]; for(var i=0;i<ls.length;i++){ if(ls[i].id===id) return ls[i].event_key?evName(ls[i].event_key):''; } return ''; } };
   function syncAdminMenu(){
@@ -2403,10 +2417,10 @@ function say(id,t){var e=$(id);e.hidden=!t;e.textContent=t||''}
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function paneOpen(){var p=document.getElementById('p-admin'),h=document.getElementById('home');return !!(p&&p.classList.contains('active')&&h&&!h.hidden)}
 function poll(){return rpc('admin_reports').then(renderRep).catch(function(){})}
-function openPanel(){poll();loadKnives();loadBd();loadRl()}
+function openPanel(){poll();loadPlayers(true);loadKnives();loadBd();loadRl()}
 setInterval(function(){if(paneOpen())poll()},5000);
 window.__mlAdminOpen=openPanel;
-window.__mlAdminReset=function(){repSig='';KV=[];['replist','bd-list','rl-list','kv-grid'].forEach(function(i){$('ad-'+i).textContent=''});$('ad-rep').hidden=true;['pl-msg','kv-msg','bd-msg','rl-msg'].forEach(function(i){say('ad-'+i)})};
+window.__mlAdminReset=function(){repSig='';KV=[];BD=[];RL={defs:[],holders:[]};PL=[];CUR='';['replist','bd-list','rl-list','kv-grid','kv-own'].forEach(function(i){$('ad-'+i).textContent=''});$('ad-rep').hidden=true;$('ad-for').hidden=true;$('ad-pk-sum').hidden=true;['pl-msg','kv-msg','bd-msg','rl-msg','pk-msg'].forEach(function(i){say('ad-'+i)})};
 var repSig='';
 function renderRep(list){
 var sg=JSON.stringify(list);if(sg===repSig)return;repSig=sg;
@@ -2418,57 +2432,99 @@ c.appendChild(el('p',null,r.reason));
 var a=el('div','acts'),bb=el('button','btn','Ban '+r.reported),dd=el('button','btn ghost','Dismiss');bb.type=dd.type='button';
 bb.onclick=function(){if(confirm('Ban '+r.reported+'? They will be logged out and removed from lobbies.'))resolve(r.id,true)};
 dd.onclick=function(){resolve(r.id,false)};a.appendChild(bb);a.appendChild(dd);c.appendChild(a);box.appendChild(c)})}
-function resolve(id,ban){say('ad-pl-msg');rpc('admin_resolve_report',{p_id:id,p_ban:ban}).then(poll).catch(function(e){say('ad-pl-msg',err(e))})}
-/* ---------- player tools ---------- */
-function pu(){var u=$('ad-pl-to').value.trim();if(!u)say('ad-pl-msg','Type a gamertag.');return u}
-$('ad-pl-tk').onclick=function(){var u=pu();if(!u)return;var a=Math.round(+$('ad-pl-amt').value||0);if(!a)return say('ad-pl-msg','Type a token amount.');say('ad-pl-msg');
-rpc('admin_give_tokens',{p_user:u,p_amount:a}).then(function(r){$('ad-pl-amt').value='';say('ad-pl-msg',r.player+' now has '+Math.floor(+r.tokens).toLocaleString()+' tokens.')}).catch(function(e){say('ad-pl-msg',err(e))})};
-function ban(on){var u=pu();if(!u)return;if(on&&!confirm('Ban '+u+'? They will be logged out and removed from open lobbies.'))return;say('ad-pl-msg');
-rpc('admin_set_ban',{p_user:u,p_banned:on}).then(function(r){say('ad-pl-msg',r.player+(on?' is banned.':' is unbanned.'))}).catch(function(e){say('ad-pl-msg',err(e))})}
+function resolve(id,ban){say('ad-pk-msg');rpc('admin_resolve_report',{p_id:id,p_ban:ban}).then(function(){poll();if(ban)loadPlayers(true)}).catch(function(e){say('ad-pk-msg',err(e))})}
+/* ---------- player picker: one dropdown drives every section below ---------- */
+var PL=[],CUR='',FULL=null;
+function cur(){return CUR}
+function curP(){for(var i=0;i<PL.length;i++)if(PL[i].u===CUR)return PL[i];return null}
+function loadPlayers(keep){
+  var sel=$('ad-pk');
+  return rpc('admin_players').then(function(l){FULL=true;return l||[]})
+    .catch(function(e){if(!/FORBIDDEN|Could not find|PGRST202/.test(e.message||''))throw e;FULL=false;
+      return window.__ml.players().then(function(l){return (l||[]).map(function(p){return{u:p.username,pr:p.pr,banned:false}})})})
+    .then(function(l){
+      PL=l.slice().sort(function(a,b){return a.u.toLowerCase()<b.u.toLowerCase()?-1:1});
+      var want=keep?CUR:'';sel.textContent='';
+      var o0=el('option',null,'Choose a player…');o0.value='';sel.appendChild(o0);
+      PL.forEach(function(p){var o=el('option',null,p.u+(p.banned?' (banned)':''));o.value=p.u;sel.appendChild(o)});
+      if(want&&curP())sel.value=want;else{CUR='';sel.value=''}
+      if(FULL===false)say('ad-pk-msg','Banned players are missing from this list until the latest SQL update is run in Supabase.');else say('ad-pk-msg');
+      pick();
+    }).catch(function(e){say('ad-pk-msg',err(e))});
+}
+function sum(){
+  var p=curP(),box=$('ad-pk-sum');box.textContent='';box.hidden=!p;if(!p)return;
+  function it(l,v,c){var s=el('span',c||null);s.appendChild(document.createTextNode(l+' '));s.appendChild(el('b',null,v));box.appendChild(s)}
+  if(p.pr!=null)it('PR',String(parseFloat((+p.pr).toFixed(2))));
+  if(p.tokens!=null)it('Tokens',Math.floor(+p.tokens).toLocaleString());
+  it('Status',p.banned?'Banned':'Active',p.banned?'bad':null);
+  $('ad-pl-ban').hidden=!!p.banned;$('ad-pl-unban').hidden=FULL!==false&&!p.banned;
+}
+function pick(){
+  CUR=$('ad-pk').value;$('ad-for').hidden=!CUR;
+  ['pl-msg','kv-msg','bd-msg','rl-msg'].forEach(function(i){say('ad-'+i)});
+  sum();renderKnives();renderBd();renderRl();
+}
+$('ad-pk').onchange=pick;
+$('ad-pk-reload').onclick=function(){loadPlayers(true);loadKnives();loadBd();loadRl()};
+
+/* ---------- tokens + ban ---------- */
+$('ad-pl-tk').onclick=function(){var u=cur();if(!u)return;var a=Math.round(+$('ad-pl-amt').value||0);if(!a)return say('ad-pl-msg','Type a token amount.');say('ad-pl-msg');
+rpc('admin_give_tokens',{p_user:u,p_amount:a}).then(function(r){$('ad-pl-amt').value='';say('ad-pl-msg',r.player+' now has '+Math.floor(+r.tokens).toLocaleString()+' tokens.');var p=curP();if(p)p.tokens=r.tokens;sum()}).catch(function(e){say('ad-pl-msg',err(e))})};
+function ban(on){var u=cur();if(!u)return;if(on&&!confirm('Ban '+u+'? They will be logged out and removed from open lobbies.'))return;say('ad-pl-msg');
+rpc('admin_set_ban',{p_user:u,p_banned:on}).then(function(r){say('ad-pl-msg',r.player+(on?' is banned.':' is unbanned.'));var p=curP();if(p)p.banned=on;sum();var s=$('ad-pk').selectedOptions[0];if(s)s.textContent=u+(on?' (banned)':'')}).catch(function(e){say('ad-pl-msg',err(e))})}
 $('ad-pl-ban').onclick=function(){ban(true)};$('ad-pl-unban').onclick=function(){ban(false)};
+
 /* ---------- badges ---------- */
-var bdKind='host';
+var bdKind='host',BD=[];
 $('ad-bd-k').onclick=function(e){var b=e.target.getAttribute('data-b');if(!b)return;bdKind=b;[].forEach.call($('ad-bd-k').children,function(x){x.classList.toggle('on',x.getAttribute('data-b')===b)})};
-function setBd(u,b,on,done){say('ad-bd-msg');return rpc('admin_set_badge',{p_user:u,p_badge:b,p_on:on}).then(function(){say('ad-bd-msg',(on?'Gave the ':'Removed the ')+b.toUpperCase()+(on?' badge to ':' badge from ')+u+'.');if(done)done();loadBd()}).catch(function(e){say('ad-bd-msg',err(e))})}
-$('ad-bd-give').onclick=function(){var u=$('ad-bd-to').value.trim();if(!u)return say('ad-bd-msg','Type a gamertag.');setBd(u,bdKind,true,function(){$('ad-bd-to').value=''})};
-function loadBd(){rpc('admin_badges').then(function(list){var box=$('ad-bd-list');box.textContent='';
-if(!list.length){box.appendChild(el('div','dim','Nobody has a badge yet.'));return}
-list.forEach(function(o){o.badges.forEach(function(b){var r=el('div','rp');r.style.cssText='display:flex;align-items:center;gap:10px;margin-top:8px;padding:8px 12px';
-var im=el('img');im.src='assets/'+b+'.webp';im.alt='';im.style.cssText='width:22px;height:22px;object-fit:contain';im.onerror=function(){im.remove()};r.appendChild(im);
-r.appendChild(el('b',null,o.u));r.appendChild(el('span','dim',b.toUpperCase()));
-var x=el('button','btn ghost sm','Remove');x.type='button';x.style.marginLeft='auto';x.onclick=function(){setBd(o.u,b,false)};r.appendChild(x);box.appendChild(r)})})}).catch(function(e){say('ad-bd-msg',err(e))})}
+function setBd(u,b,on){say('ad-bd-msg');return rpc('admin_set_badge',{p_user:u,p_badge:b,p_on:on}).then(function(){say('ad-bd-msg',(on?'Gave the ':'Removed the ')+b.toUpperCase()+(on?' badge to ':' badge from ')+u+'.');loadBd()}).catch(function(e){say('ad-bd-msg',err(e))})}
+$('ad-bd-give').onclick=function(){var u=cur();if(u)setBd(u,bdKind,true)};
+function loadBd(){return rpc('admin_badges').then(function(l){BD=l||[];renderBd()}).catch(function(e){say('ad-bd-msg',err(e))})}
+function renderBd(){var box=$('ad-bd-list');box.textContent='';var u=cur();if(!u)return;
+var o=BD.filter(function(x){return x.u.toLowerCase()===u.toLowerCase()})[0],have=(o&&o.badges)||[];
+if(!have.length){box.appendChild(el('div','dim',u+' has no badges.'));return}
+have.forEach(function(b){var r=el('div','ownrow'),im=el('img');im.src='assets/'+b+'.webp';im.alt='';im.onerror=function(){im.remove()};r.appendChild(im);
+r.appendChild(el('b',null,b.toUpperCase()));var x=el('button','btn ghost sm','Remove');x.type='button';x.onclick=function(){if(confirm('Remove the '+b.toUpperCase()+' badge from '+u+'?'))setBd(u,b,false)};r.appendChild(x);box.appendChild(r)})}
 
 /* ---------- roles ---------- */
-var RNAME={};
-function setRl(u,k,on,done){say('ad-rl-msg');return rpc('admin_set_role',{p_user:u,p_role:k,p_on:on}).then(function(){say('ad-rl-msg',(on?'Gave ':'Removed ')+(RNAME[k]||k)+(on?' to ':' from ')+u+'.');if(done)done();loadRl()}).catch(function(e){say('ad-rl-msg',/BAD_ROLE/.test(e.message)?'Unknown role.':/Could not find|PGRST202/.test(e.message)?'Run roles.sql in Supabase first.':err(e))})}
-$('ad-rl-give').onclick=function(){var u=$('ad-rl-to').value.trim();if(!u)return say('ad-rl-msg','Type a gamertag.');if(!$('ad-rl-k').value)return say('ad-rl-msg','Pick a role.');setRl(u,$('ad-rl-k').value,true,function(){$('ad-rl-to').value=''})};
-function loadRl(){rpc('admin_roles').then(function(d){var sel=$('ad-rl-k'),cur=sel.value;sel.textContent='';RNAME={};
-d.defs.forEach(function(r){RNAME[r.key]=r.name;var o=el('option',null,r.name);o.value=r.key;sel.appendChild(o)});if(cur)sel.value=cur;
-var box=$('ad-rl-list');box.textContent='';if(!d.holders.length){box.appendChild(el('div','dim','Nobody has a role yet.'));return}
-d.holders.forEach(function(h){h.roles.forEach(function(k){var r=el('div','rp');r.style.cssText='display:flex;align-items:center;gap:10px;margin-top:8px;padding:8px 12px';
-r.appendChild(el('b',null,h.u));r.appendChild(el('span','dim',RNAME[k]||k));
-var x=el('button','btn ghost sm','Remove');x.type='button';x.style.marginLeft='auto';x.onclick=function(){setRl(h.u,k,false)};r.appendChild(x);box.appendChild(r)})})}).catch(function(e){say('ad-rl-msg',/Could not find|PGRST202/.test(e.message)?'Run roles.sql in Supabase first.':err(e))})}
+var RNAME={},RL={defs:[],holders:[]};
+function setRl(u,k,on){say('ad-rl-msg');return rpc('admin_set_role',{p_user:u,p_role:k,p_on:on}).then(function(){say('ad-rl-msg',(on?'Gave ':'Removed ')+(RNAME[k]||k)+(on?' to ':' from ')+u+'.');loadRl()}).catch(function(e){say('ad-rl-msg',/BAD_ROLE/.test(e.message)?'Unknown role.':err(e))})}
+$('ad-rl-give').onclick=function(){var u=cur();if(!u)return;if(!$('ad-rl-k').value)return say('ad-rl-msg','Pick a role.');setRl(u,$('ad-rl-k').value,true)};
+function loadRl(){return rpc('admin_roles').then(function(d){RL=d||{defs:[],holders:[]};var sel=$('ad-rl-k'),c=sel.value;sel.textContent='';RNAME={};
+RL.defs.forEach(function(r){RNAME[r.key]=r.name;var o=el('option',null,r.name);o.value=r.key;sel.appendChild(o)});if(c)sel.value=c;renderRl()}).catch(function(e){say('ad-rl-msg',err(e))})}
+function renderRl(){var box=$('ad-rl-list');box.textContent='';var u=cur();if(!u)return;
+var h=(RL.holders||[]).filter(function(x){return x.u.toLowerCase()===u.toLowerCase()})[0],have=(h&&h.roles)||[];
+if(!have.length){box.appendChild(el('div','dim',u+' has no roles.'));return}
+have.forEach(function(k){var r=el('div','ownrow');r.appendChild(el('b',null,RNAME[k]||k));var x=el('button','btn ghost sm','Remove');x.type='button';x.onclick=function(){if(confirm('Remove '+(RNAME[k]||k)+' from '+u+'?'))setRl(u,k,false)};r.appendChild(x);box.appendChild(r)})}
 
-/* ---------- give knives ---------- */
+/* ---------- knives + items ---------- */
 var KV=[];
-function kerr(e){var m=e.message||'';if(/PLAYER_NOT_FOUND/.test(m))return'No player called "'+$('ad-kv-to').value.trim()+'".';if(/ALREADY_HAS/.test(m))return $('ad-kv-to').value.trim()+' already has that knife.';
-if(/NOT_OWNED/.test(m))return'That player doesn’t have that knife.';if(/UNKNOWN_KNIFE/.test(m))return'Unknown knife. Run the new SQL in Supabase.';return err(e)}
-function loadKnives(){rpc('admin_knives').then(function(l){KV=l;renderKnives()}).catch(function(e){say('ad-kv-msg',err(e))})}
-function ownText(k){if(!k.owners.length)return['In the vault',true];return[k.owners.map(function(o){return o.u+(+o.n>1?' ×'+o.n:'')}).join(', '),false]}
-function renderKnives(){var box=$('ad-kv-grid');box.textContent='';
-KV.forEach(function(k){var c=el('div','kc'),im=el('div','kimg'),i=el('img');i.src='assets/'+k.image;i.alt='';i.onerror=function(){i.replaceWith(el('div','dim',k.name))};im.appendChild(i);c.appendChild(im);
-c.appendChild(el('b',null,k.name));var o=ownText(k),ow=el('div','own'+(o[1]?' v':''),o[0]);c.appendChild(ow);
-if(k.multi)c.appendChild(el('div','tag','Multiple copies allowed'));
-var a=el('div','acts'),g=el('button','btn sm','Give'),t=el('button','btn ghost sm','Take back');g.type=t.type='button';t.disabled=!k.owners.length;
-g.onclick=function(){giveKnife(k,false)};t.onclick=function(){takeKnife(k)};a.appendChild(g);a.appendChild(t);c.appendChild(a);box.appendChild(c)})}
-function giveKnife(k,move){var u=$('ad-kv-to').value.trim();if(!u)return say('ad-kv-msg','Type a gamertag first.');say('ad-kv-msg');
-rpc('admin_give_knife',{p_user:u,p_key:k.key,p_move:!!move}).then(function(r){say('ad-kv-msg','Gave the '+r.knife+' to '+r.player+'.');loadKnives()})
-.catch(function(e){var m=(e.message||'').match(/ALREADY_OWNED:(.*)$/);
-if(m){if(confirm(m[1]+' already has the '+k.name+' (only one exists). Move it to '+u+'?'))giveKnife(k,true);return}say('ad-kv-msg',kerr(e))})}
-function takeKnife(k){var u=$('ad-kv-to').value.trim().toLowerCase(),own=k.owners.filter(function(o){return o.u.toLowerCase()===u})[0]||(k.owners.length===1?k.owners[0]:null);
-if(!own)return say('ad-kv-msg','Type the gamertag you want to take the '+k.name+' from.');
-if(!confirm('Take the '+k.name+' back from '+own.u+'?'))return;say('ad-kv-msg');
-rpc('admin_take_knife',{p_user:own.u,p_key:k.key}).then(function(r){say('ad-kv-msg','Took the '+r.knife+' back from '+r.player+'.');loadKnives()}).catch(function(e){say('ad-kv-msg',kerr(e))})}
+function kerr(e){var m=e.message||'';if(/PLAYER_NOT_FOUND/.test(m))return'No player called "'+cur()+'".';if(/ALREADY_HAS/.test(m))return cur()+' already has that knife.';
+if(/NOT_OWNED/.test(m))return'That player doesn’t have that knife.';if(/UNKNOWN_KNIFE/.test(m))return'Unknown knife.';return err(e)}
+function loadKnives(){return rpc('admin_knives').then(function(l){KV=l||[];renderKnives()}).catch(function(e){say('ad-kv-msg',err(e))})}
+function card(k){var c=el('div','kc'),im=el('div','kimg'),i=el('img');i.src='assets/'+k.image;i.alt='';i.onerror=function(){i.replaceWith(el('div','dim',k.name))};im.appendChild(i);c.appendChild(im);c.appendChild(el('b',null,k.name));return c}
+function renderKnives(){
+  var own=$('ad-kv-own'),give=$('ad-kv-grid');own.textContent='';give.textContent='';var u=cur();if(!u)return;var lu=u.toLowerCase(),nOwn=0;
+  KV.forEach(function(k){
+    var mine=k.owners.filter(function(o){return o.u.toLowerCase()===lu})[0];
+    if(mine){nOwn++;var c=card(k);c.appendChild(el('div','own',+mine.n>1?'×'+mine.n:' '));
+      var a=el('div','acts'),t=el('button','btn ghost sm','Take back');t.type='button';t.onclick=function(){takeKnife(k)};a.appendChild(t);c.appendChild(a);own.appendChild(c)}
+    if(mine&&!k.multi)return;
+    var others=k.owners.filter(function(o){return o.u.toLowerCase()!==lu});
+    var g=card(k),taken=!k.multi&&others.length;
+    g.appendChild(el('div','own'+(taken?'':' v'),taken?'Owned by '+others.map(function(o){return o.u}).join(', '):(k.multi?'Multiple copies allowed':'In the vault')));
+    var a2=el('div','acts'),b=el('button',taken?'btn ghost sm':'btn sm',taken?'Move to '+u:'Give');b.type='button';b.onclick=function(){giveKnife(k,!!taken)};a2.appendChild(b);g.appendChild(a2);give.appendChild(g);
+  });
+  $('ad-kv-own-h').textContent='Owned by '+u+' ('+nOwn+')';
+  if(!nOwn){var nd=el('div','dim',u+' doesn’t own any knives or items yet.');nd.style.gridColumn='1/-1';own.appendChild(nd)}
+}
+function giveKnife(k,move){var u=cur();if(!u)return;
+  if(move&&!confirm('Move the '+k.name+' from '+k.owners.map(function(o){return o.u}).join(', ')+' to '+u+'?'))return;say('ad-kv-msg');
+  rpc('admin_give_knife',{p_user:u,p_key:k.key,p_move:!!move}).then(function(r){say('ad-kv-msg','Gave the '+r.knife+' to '+r.player+'.');loadKnives()})
+  .catch(function(e){var m=(e.message||'').match(/ALREADY_OWNED:(.*)$/);if(m&&!move){if(confirm(m[1]+' already has the '+k.name+' (only one exists). Move it to '+u+'?'))giveKnife(k,true);return}say('ad-kv-msg',kerr(e))})}
+function takeKnife(k){var u=cur();if(!u)return;if(!confirm('Take the '+k.name+' back from '+u+'?'))return;say('ad-kv-msg');
+  rpc('admin_take_knife',{p_user:u,p_key:k.key}).then(function(r){say('ad-kv-msg','Took the '+r.knife+' back from '+r.player+'.');loadKnives()}).catch(function(e){say('ad-kv-msg',kerr(e))})}
 })();
 </script>
         <script>
@@ -2484,7 +2540,9 @@ function poll(){return rpc('admin_state').then(function(r){off=new Date(r.now)-D
 var BADGES={};
 function loadBadges(){var m=(window.__ml&&window.__ml.badges())||{},o=JSON.stringify(BADGES);BADGES={};for(var k in m)BADGES[k.toLowerCase()]=m[k];if(JSON.stringify(BADGES)!==o){for(var id in cache){cache[id].sig=''}if(S)render()}}
 function nameNode(p,name){var b=BADGES[String(name).toLowerCase()];(b||[]).forEach(function(k){var K=k.toUpperCase(),i=el('img','bdg');i.src='assets/'+k+'.webp';i.alt=K;i.title=K;i.onerror=function(){var s=el('span','bdg txt',K);i.replaceWith(s)};p.appendChild(i)});p.appendChild(document.createTextNode(name))}
-function openPanel(){poll();loadNtf();loadBadges()}
+function loadTo(){var sel=$('ho-nt-to'),c=sel.value;window.__ml.players().then(function(l){sel.textContent='';var o=el('option',null,'Everyone');o.value='';sel.appendChild(o);
+(l||[]).map(function(p){return p.username}).sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1}).forEach(function(u){var x=el('option',null,u);x.value=u;sel.appendChild(x)});sel.value=c}).catch(function(){})}
+function openPanel(){poll();loadNtf();loadBadges();loadTo()}
 setInterval(function(){if(paneOpen())poll()},2000);
 setInterval(function(){if(paneOpen())loadBadges()},5000);
 setInterval(function(){if(paneOpen())tick()},250);
