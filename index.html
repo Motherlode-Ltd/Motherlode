@@ -1585,8 +1585,13 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   ].forEach(function(k){
     PRIZES['knife_'+k[0]]={name:k[1],img:'knives/'+k[0]+'.png',color:/winners/.test(k[0])?'#eab308':(/finalists/.test(k[0])?'#cbd5e1':'#e5e7eb'),pct:0};
   });
-  PRIZES['1year_sticker']={name:'1 Year Sticker',img:'1year.png',color:'#22c55e',pct:0};
-  PRIZES['titan_holo']={name:'Titan Holo',img:'titan_holo.png',color:'#e5e7eb',pct:0};
+  PRIZES['1year_sticker']={name:'1 Year Sticker',img:'stickers/1year.png',color:'#22c55e',pct:0};
+  PRIZES['titan_holo']={name:'Titan Holo (Katowice 2014)',img:'stickers/titan_holo.png',color:'#eab308',pct:0};
+  /* ESL Sticker Case stickers (Katowice 2014) */
+  PRIZES['sticker_team_dignitas']={name:'Team Dignitas (Katowice 2014)',img:'stickers/team_dignitas.webp',color:'#ef4444',pct:0};
+  PRIZES['sticker_ibuypower']={name:'iBUYPOWER (Katowice 2014)',img:'stickers/ibuypower.png',color:'#ec4899',pct:0};
+  PRIZES['sticker_reason']={name:'Reason Gaming (Katowice 2014)',img:'stickers/reason.png',color:'#a855f7',pct:0};
+  PRIZES['sticker_fnatic']={name:'Fnatic (Katowice 2014)',img:'stickers/fnatic.webp',color:'#3b82f6',pct:0};
   PRIZES['wc25_sticker']={name:'WC25 Sticker',img:'wc25.png',color:'#e5e7eb',pct:0};
   PRIZES['knife_black_web']={name:'Black Web',img:'knives/black_web.png',color:'#facc15',pct:0};
   PRIZES['knife_blue_graffiti']={name:'Blue Graffiti',img:'knives/blue_graffiti.png',color:'#facc15',pct:0};
@@ -1606,7 +1611,10 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     return PRIZES[r.item]||(PRIZES[r.item]={name:r.name||String(r.item).replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()}),img:r.image||null,color:'#e5e7eb',pct:0});
   }
   var STORE_ITEMS=[
-    {id:'jt_case',kind:'case',name:'Jon Taffer Case',desc:'Open it for a chance at a Kunai Knife!',price:300,img:'jtcase.png',odds:['nothing','tokens','jt_sticker','jt_sticker2','halloween_knife','kunai_knife']}
+    {id:'jt_case',kind:'case',name:'Jon Taffer Case',desc:'Open it for a chance at a Kunai Knife!',price:300,img:'jtcase.png',fn:'open_case',
+     odds:{nothing:44,tokens:20,jt_sticker:16,jt_sticker2:16,halloween_knife:3,kunai_knife:1}},
+    {id:'esl_case',kind:'case',name:'ESL Sticker Case',desc:'Katowice 2014 stickers. 5% chance at a Titan Holo!',price:10000,img:'esl_case.webp',fn:'open_esl_case',
+     odds:{sticker_fnatic:33,sticker_reason:27,sticker_ibuypower:20,sticker_team_dignitas:15,titan_holo:5}}
   ];
   function pvNode(key,imgFile){
     var d=el('div','pv'), P=PRIZES[key], f=imgFile||(P&&P.img);
@@ -1621,12 +1629,12 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     $('store-bal').textContent=fmtTok(ME.tokens); $('store-usd').textContent='\u2248 '+fmtUsd(ME.tokens);
     var box=$('store-items'); box.textContent='';
     STORE_ITEMS.forEach(function(it){
-      var c=el('div','sitem'), pn=pvNode(it.id==='jt_case'?'jt_case':it.id,it.img); if(it.id==='kunai_knife') pn.classList.add('small'); c.appendChild(pn);
+      var c=el('div','sitem'), pn=pvNode(it.id,it.img); if(it.id==='kunai_knife') pn.classList.add('small'); c.appendChild(pn);
       c.appendChild(el('div','rname',it.name)); if(it.desc) c.appendChild(el('div','rsub',it.desc));
-      if(it.odds){ var o=el('div','odds'); it.odds.forEach(function(k){ var sp=el('span',null,PRIZES[k].pct+'% '+PRIZES[k].name); sp.style.setProperty('--c',PRIZES[k].color); o.appendChild(sp); }); c.appendChild(o); }
+      if(it.odds){ var o=el('div','odds'); Object.keys(it.odds).forEach(function(k){ var sp=el('span',null,it.odds[k]+'% '+PRIZES[k].name+(SELL[k]?' \u00b7 '+fmtTok(SELL[k]):'')); sp.style.setProperty('--c',PRIZES[k].color); o.appendChild(sp); }); c.appendChild(o); }
       var pr=el('div','price'), im=el('img'); im.src='assets/token.png'; im.alt=''; pr.appendChild(im); pr.appendChild(document.createTextNode(fmtTok(it.price))); c.appendChild(pr);
       var b=el('button','btn small',it.kind==='case'?'Open case':'Buy'); b.type='button'; b.disabled=Number(ME.tokens)<it.price;
-      b.onclick=function(){ it.kind==='case'?openCase(b):buyItem(it,b); };
+      b.onclick=function(){ it.kind==='case'?openCase(it,b):buyItem(it,b); };
       c.appendChild(b); box.appendChild(c);
     });
     loadInv();
@@ -1645,7 +1653,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     };
     w.appendChild(b); w.appendChild(box); return w;
   }
-  var SELL={halloween_knife:1500,kunai_knife:3000,jt_sticker:100,jt_sticker2:100};
+  var SELL={halloween_knife:1500,kunai_knife:3000,jt_sticker:100,jt_sticker2:100,titan_holo:50000,sticker_team_dignitas:12000,sticker_ibuypower:6000,sticker_reason:4500,sticker_fnatic:3800};
   function sellItem(key,b){
     var P=PRIZES[key]; if(!confirm('Sell 1 '+P.name+' for '+fmtTok(SELL[key])+' tokens?')) return;
     msg('store-msg'); b.disabled=true;
@@ -1684,15 +1692,15 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   function startSound(){ try{ if(!SND) return; SND.muted=false; SND.currentTime=0; var p=SND.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
   function stopSound(){ try{ if(SND){ SND.pause(); SND.currentTime=0; } }catch(e){} }
   var caseBusy=false;
-  function pickWeighted(){
-    var r=Math.random()*100, acc=0, ks=Object.keys(PRIZES);
-    for(var i=0;i<ks.length;i++){ acc+=PRIZES[ks[i]].pct; if(r<acc) return ks[i]; }
-    return 'nothing';
+  function pickWeighted(odds){
+    var ks=Object.keys(odds), r=Math.random()*100, acc=0;
+    for(var i=0;i<ks.length;i++){ acc+=odds[ks[i]]; if(r<acc) return ks[i]; }
+    return ks[0];
   }
-  function openCase(btn){
+  function openCase(it,btn){
     if(caseBusy) return; caseBusy=true; msg('store-msg'); if(btn) btn.disabled=true;
     unlockSound();
-    call('open_case').then(function(r){ playReel(r); })
+    call(it.fn).then(function(r){ r.caseItem=it; playReel(r); })
       .catch(function(e){ caseBusy=false; msg('store-msg',friendly(e)); renderStore(); });
   }
   function playReel(res){
@@ -1701,7 +1709,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     reel.className='reel'; reel.textContent=''; reel.style.transform='translateX(0)'; ov.hidden=false;
     var N=70, W=56, vw=wrap.clientWidth, TW=vw<520?110:140, tiles=[];
     for(var i=0;i<N;i++){
-      var k=(i===W)?res.prize:pickWeighted(), t=el('div','rt'); t.style.width=TW+'px'; t.style.setProperty('--c',PRIZES[k].color);
+      var k=(i===W)?res.prize:pickWeighted(res.caseItem.odds), t=el('div','rt'); t.style.width=TW+'px'; t.style.setProperty('--c',PRIZES[k].color);
       t.appendChild(pvNode(k)); reel.appendChild(t); tiles.push(t);
     }
     var jitter=(Math.random()-.5)*TW*.7, target=-(W*TW+TW/2+jitter-vw/2), DUR=5000, started=performance.now();
@@ -1721,10 +1729,11 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     var box=$('cs-res'); box.textContent=''; box.hidden=false;
     var big=el('div','big'); big.style.setProperty('--c',P.color); big.appendChild(pvNode(res.prize)); box.appendChild(big);
     var h=el('h2',null,P.name); h.style.color=P.color==='#6b7280'?'#fff':P.color; box.appendChild(h);
+    if(SELL[res.prize]) box.appendChild(el('div','why','Worth '+fmtTok(SELL[res.prize])+' tokens if you sell it'));
     box.appendChild(el('div','why',res.prize==='tokens'?'+100 tokens back (balance: '+fmtTok(res.tokens)+')':res.prize==='nothing'?'The case was empty. Balance: '+fmtTok(res.tokens)+' tokens':'Added to My items. Balance: '+fmtTok(res.tokens)+' tokens'));
     var bt=$('cs-btns'); bt.textContent=''; bt.hidden=false;
-    var again=el('button','btn small','Open another \u00b7 300'); again.type='button'; again.disabled=Number(ME.tokens)<300;
-    again.onclick=function(){ stopSound(); $('caseov').hidden=true; caseBusy=false; openCase(null); };
+    var it=res.caseItem, again=el('button','btn small','Open another \u00b7 '+fmtTok(it.price)); again.type='button'; again.disabled=Number(ME.tokens)<it.price;
+    again.onclick=function(){ stopSound(); $('caseov').hidden=true; caseBusy=false; openCase(it,null); };
     var close=el('button','btn ghost small','Close'); close.type='button';
     close.onclick=function(){ stopSound(); $('caseov').hidden=true; caseBusy=false; renderStore(); refreshStats(); };
     bt.appendChild(again); bt.appendChild(close);
