@@ -1569,12 +1569,12 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
 
   /* ---------- store ---------- */
   var PRIZES={
-    nothing:{name:'Nothing',img:null,color:'#6b7280',pct:30},
-    tokens:{name:'100 Tokens',img:'token.png',color:'#3b82f6',pct:25},
-    jt_sticker:{name:'Jon Taffer Sticker 1',img:'jt.png',color:'#a855f7',pct:20},
-    jt_sticker2:{name:'Jon Taffer Sticker 2',img:'jt1.jpg',color:'#a855f7',pct:20},
+    nothing:{name:'Nothing',img:null,color:'#6b7280',pct:44},
+    tokens:{name:'100 Tokens',img:'token.png',color:'#3b82f6',pct:20},
+    jt_sticker:{name:'Jon Taffer Sticker 1',img:'jt.png',color:'#a855f7',pct:16},
+    jt_sticker2:{name:'Jon Taffer Sticker 2',img:'jt1.jpg',color:'#a855f7',pct:16},
     halloween_knife:{name:'Halloween Knife',img:'hknife.png',color:'#ef4444',pct:3},
-    kunai_knife:{name:'Kunai Knife',img:'kunai.png',color:'#eab308',pct:2}
+    kunai_knife:{name:'Kunai Knife',img:'kunai.png',color:'#eab308',pct:1}
   };
   /* the 16 collectible knives (stored in the database vault; they appear here once the host gives one to a player) */
   [['america','America'],['biz_markies','Biz Markie\u2019s'],['biz_markies_subway','Biz Markie\u2019s Subway'],['blue_christmas','Blue Christmas'],
@@ -1606,7 +1606,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     return PRIZES[r.item]||(PRIZES[r.item]={name:r.name||String(r.item).replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()}),img:r.image||null,color:'#e5e7eb',pct:0});
   }
   var STORE_ITEMS=[
-    {id:'jt_case',kind:'case',name:'Jon Taffer Case',desc:'Open it for a chance at a Kunai Knife!',price:200,img:'jtcase.png',odds:['nothing','tokens','jt_sticker','jt_sticker2','halloween_knife','kunai_knife']}
+    {id:'jt_case',kind:'case',name:'Jon Taffer Case',desc:'Open it for a chance at a Kunai Knife!',price:300,img:'jtcase.png',odds:['nothing','tokens','jt_sticker','jt_sticker2','halloween_knife','kunai_knife']}
   ];
   function pvNode(key,imgFile){
     var d=el('div','pv'), P=PRIZES[key], f=imgFile||(P&&P.img);
@@ -1723,7 +1723,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     var h=el('h2',null,P.name); h.style.color=P.color==='#6b7280'?'#fff':P.color; box.appendChild(h);
     box.appendChild(el('div','why',res.prize==='tokens'?'+100 tokens back (balance: '+fmtTok(res.tokens)+')':res.prize==='nothing'?'The case was empty. Balance: '+fmtTok(res.tokens)+' tokens':'Added to My items. Balance: '+fmtTok(res.tokens)+' tokens'));
     var bt=$('cs-btns'); bt.textContent=''; bt.hidden=false;
-    var again=el('button','btn small','Open another \u00b7 200'); again.type='button'; again.disabled=Number(ME.tokens)<200;
+    var again=el('button','btn small','Open another \u00b7 300'); again.type='button'; again.disabled=Number(ME.tokens)<300;
     again.onclick=function(){ stopSound(); $('caseov').hidden=true; caseBusy=false; openCase(null); };
     var close=el('button','btn ghost small','Close'); close.type='button';
     close.onclick=function(){ stopSound(); $('caseov').hidden=true; caseBusy=false; renderStore(); refreshStats(); };
