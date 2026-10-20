@@ -616,7 +616,7 @@ body.in-app #p-host .chip.p img { filter: grayscale(1) brightness(1.7); }
 .evrow2 .t { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .evrow2 .t b { font-size: 14.5px; font-weight: 600; }
 .evrow2 .t .acts { margin-left: auto; flex-wrap: nowrap; }
-body.in-app #p-admin .evrow2 .acts .btn { flex: none; }
+body.in-app :is(#p-admin, #p-host) .evrow2 .acts .btn { flex: none; }
 .evrow2 .meta { font-size: 12.5px; color: var(--tx3); }
 .evrow2 .ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .evrow2 .ctl .dim { font-size: 12.5px; }
@@ -639,6 +639,89 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
 @media (max-width: 620px) { .evf-grid { grid-template-columns: minmax(0,1fr); } .przrow { grid-template-columns: 70px minmax(0,1fr) auto; } }
 
 @media (max-width: 640px) { body.in-app .ab-title b { font-size: 16px; } body.in-app .ptitle { font-size: 21px; } }
+
+/* ===== v2: top navigation + account menu ===== */
+body.in-app .ab-in { gap: 6px; min-height: 58px; }
+body.in-app .ab-logo-btn { flex: none; height: 40px; padding: 0 12px 0 0; margin-right: 8px; border-right: 1px solid var(--bd); }
+body.in-app .ab-logo { height: 26px; max-width: 110px; }
+body.in-app .ab-nav { flex: 1 1 auto; min-width: 0; display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+body.in-app .ab-nav::-webkit-scrollbar { display: none; }
+body.in-app .ab-link { flex: none; gap: 7px; }
+body.in-app .ab-link svg { opacity: .85; }
+body.in-app .ab-link[aria-selected="true"] { background: transparent; border-color: transparent; color: var(--tx); box-shadow: inset 0 -2px 0 var(--ac); border-radius: 0; }
+body.in-app .ab-end { flex: none; display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.ab-acct { position: relative; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 10px 0 4px; border: 1px solid var(--bd); border-radius: 999px; background: var(--s1); color: var(--tx); font: inherit; font-size: 13.5px; font-weight: 500; cursor: pointer; }
+.ab-acct:hover, .ab-acct[aria-expanded="true"], .ab-acct.on { border-color: var(--bd2); background: var(--s2); }
+.ab-acct .ab-av .avatar { width: 30px; height: 30px; border: 0; }
+.ab-acct .ab-nm { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ab-acct .chev { color: var(--tx3); transition: transform .15s; }
+.ab-acct[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.ab-acct .dot { position: absolute; top: 2px; left: 26px; margin: 0; }
+.ab-acct:focus-visible { outline: 2px solid var(--ac); outline-offset: 2px; }
+body.in-app .appbar .menu { left: auto; right: 0; width: 240px; transform-origin: top right; }
+@media (max-width: 760px) {
+  body.in-app .ab-in { flex-wrap: wrap; row-gap: 0; padding-bottom: 0; }
+  body.in-app .ab-logo-btn { border-right: 0; margin-right: 0; }
+  body.in-app .ab-nav { order: 3; flex-basis: 100%; margin: 4px calc(-1 * var(--gx)) 0; padding: 0 var(--gx); border-top: 1px solid var(--bd); }
+  body.in-app .ab-link { min-height: 42px; padding: 0 10px; }
+  body.in-app .ab-link > span { display: inline; }
+  body.in-app .ab-link { width: auto; justify-content: flex-start; }
+  body.in-app .ab-link .dot { position: static; margin-left: 2px; }
+  .ab-acct .ab-nm { display: none; }
+  .ab-acct { padding-right: 8px; }
+}
+
+/* ===== v2: profile (view only) ===== */
+.pf-head { grid-template-areas: "av id act" "bio bio bio"; }
+.pf-head > #my-avatar { grid-area: av; }
+.pf-head .pf-id { grid-area: id; }
+.pf-head .pf-actions { grid-area: act; align-self: start; }
+.pf-bio { grid-area: bio; margin: 2px 0 0; padding-top: 14px; border-top: 1px solid var(--bd); font-size: 14px; line-height: 1.55; color: var(--tx2); white-space: pre-wrap; word-break: break-word; }
+.pf-bio.none { color: var(--tx3); }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--ac); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) { .pf-head { grid-template-areas: "av id" "act act" "bio bio"; } }
+
+/* ===== v2: stat sheet (plain grouped lists, no boxes) ===== */
+.statsheet { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%,170px), 1fr)); gap: 0 28px; padding: 4px 18px 10px; background: var(--s1); border: 1px solid var(--bd); border-radius: 10px; }
+.statsheet .sg { min-width: 0; }
+.statsheet h4 { margin: 12px 0 4px; font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--tx3); }
+.statsheet dl { margin: 0; }
+.statsheet .sr { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--bd); font-size: 14px; }
+.statsheet .sr:last-child { border-bottom: 0; }
+.statsheet dt { color: var(--tx2); }
+.statsheet dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.statsheet .sr.hl dd { color: var(--ac); }
+/* inside the player popup: no outer box either */
+body.in-app .sheet .statsheet { padding: 0; background: none; border: 0; border-radius: 0; gap: 0 22px; }
+body.in-app .sheet .tier { background: none; border: 0; border-radius: 0; padding: 0 0 14px; border-bottom: 1px solid var(--bd); margin-bottom: 4px; }
+body.in-app .sheet .spread { background: none; border: 0; padding: 0; }
+body.in-app .sheet .prwrap { background: none; border: 0; padding: 0; }
+body.in-app .sheet .mlist { border-radius: 0; border-left: 0; border-right: 0; }
+body.in-app .sheet .mlist .mrow { background: none; padding-left: 0; padding-right: 0; }
+body.in-app .sheet .rep .btn { width: 100%; }
+
+/* ===== v2: account settings ===== */
+.acct { background: var(--s1); border: 1px solid var(--bd); border-radius: 10px; }
+.acct-row { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 16px 32px; padding: 22px 22px; border-bottom: 1px solid var(--bd); }
+.acct-row:last-child { border-bottom: 0; }
+.acct-l h3 { font-size: 14.5px; font-weight: 600; margin: 0 0 4px; }
+.acct-l p { font-size: 13px; line-height: 1.5; color: var(--tx3); margin: 0; }
+.acct-r { display: grid; gap: 12px; align-content: start; max-width: 520px; }
+.acct-r .btn { justify-self: start; width: auto; }
+.acct-r textarea { min-height: 110px; }
+.acct-photo { display: flex; align-items: center; gap: 16px; }
+.acct-photo .avatar.big { width: 72px; height: 72px; }
+.acct-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.acct-dl { margin: 0; border: 1px solid var(--bd); border-radius: var(--r); }
+.acct-dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-bottom: 1px solid var(--bd); font-size: 14px; }
+.acct-dl > div:last-child { border-bottom: 0; }
+.acct-dl dt { color: var(--tx3); }
+.acct-dl dd { margin: 0; font-weight: 500; text-align: right; word-break: break-word; }
+body.in-app #p-account #pf-msg.show { margin-top: 14px; }
+@media (max-width: 430px) { body.in-app .ab-logo-btn { display: flex; } }
+body.in-app #p-host .lh small, body.in-app #p-host .timer small { letter-spacing: 0; text-transform: none; font-size: 12.5px; color: var(--tx3); }
+body.in-app #p-host .lob .lbl { text-transform: none; letter-spacing: 0; font-size: 12.5px; }
+@media (max-width: 700px) { .acct-row { grid-template-columns: minmax(0,1fr); padding: 18px 16px; gap: 12px; } }
 </style>
     </head>
     <body>
@@ -717,33 +800,31 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
             <section id="home" hidden aria-label="Home">
                 <header class="appbar">
                     <div class="ab-in">
-                        <button type="button" id="menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Open menu" class="ab-menu">
-                            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
-                            <i class="dot" id="menu-dot" hidden></i>
-                        </button>
-                        <div class="ab-title"><small>Motherlode</small><b id="menu-label">Profile</b></div>
+                        <button type="button" class="ab-logo-btn" data-go="profile" aria-label="Go to profile"><img class="ab-logo" id="bar-logo" alt="Motherlode"></button>
                         <nav class="ab-nav" aria-label="Primary">
-                            <button type="button" class="ab-link" data-h="events" data-label="Events" aria-label="Events" aria-selected="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 21h8M10 17h4"/></svg><span>Events</span><i class="dot" id="join-dot" hidden></i></button>
+                            <button type="button" class="ab-link" data-h="events" data-label="Events" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 21h8M10 17h4"/></svg><span>Events</span><i class="dot" id="join-dot" hidden></i></button>
+                            <button type="button" class="ab-link" data-h="stats" data-label="Stats" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg><span>Stats</span></button>
+                            <button type="button" class="ab-link" data-h="players" data-label="Players" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.3.7 3.5 2.6 3.5 5.6"/></svg><span>Players</span></button>
+                            <button type="button" class="ab-link" data-h="store" data-label="Store" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg><span>Store</span></button>
+                            <button type="button" class="ab-link" data-h="host" data-label="Host" aria-selected="false" id="mi-host" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg><span>Host</span></button>
+                            <button type="button" class="ab-link" data-h="admin" data-label="Admin" aria-selected="false" id="mi-admin" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.3 8-8 9-4.7-1-8-4.5-8-9V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg><span>Admin</span></button>
                         </nav>
                         <div class="ab-end">
-                            <button type="button" class="ab-icon" data-h="notifs" data-label="Notifications" aria-label="Notifications" aria-selected="false"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><i class="dot" id="notif-dot" hidden></i></button>
-                            <button type="button" class="ab-logo-btn" data-go="profile" aria-label="Go to profile"><img class="ab-logo" id="bar-logo" alt="Motherlode"></button>
+                            <button type="button" class="ab-icon" data-h="notifs" data-label="Notifications" aria-label="Notifications" aria-selected="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><i class="dot" id="notif-dot" hidden></i></button>
+                            <button type="button" id="menu-btn" class="ab-acct" aria-haspopup="true" aria-expanded="false" aria-controls="menu" aria-label="Account menu">
+                                <span class="ab-av" id="bar-av"></span><span class="ab-nm" id="bar-name"></span>
+                                <svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                                <i class="dot" id="menu-dot" hidden></i>
+                            </button>
                         </div>
                         <div class="scrim" id="menu-scrim" hidden></div>
-                        <nav class="menu" id="menu" hidden aria-label="Sections">
-                            <div class="menu-user">
-                                <small>Signed in as</small><span id="home-user"></span>
-                            </div>
-                            <div role="tablist" aria-orientation="vertical">
-                                <button class="mi" role="tab" type="button" data-h="profile" data-label="Profile" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span>Profile</span><i class="dot" id="msg-dot" hidden></i></button>
-                                <button class="mi" role="tab" type="button" data-h="stats" data-label="Stats" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg></span><span>Stats</span></button>
-                                <button class="mi" role="tab" type="button" data-h="players" data-label="Players" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.3.7 3.5 2.6 3.5 5.6"/></svg></span><span>Players</span></button>
-                                <button class="mi" id="mi-admin" role="tab" type="button" data-h="admin" data-label="Admin panel" aria-selected="false" hidden><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.3 8-8 9-4.7-1-8-4.5-8-9V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg></span><span>Admin panel</span><span class="tagpill">Admin</span></button>
-                                <button class="mi" id="mi-host" role="tab" type="button" data-h="host" data-label="Host panel" aria-selected="false" hidden><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span>Host panel</span><span class="tagpill">Host</span></button>
-                                <button class="mi" role="tab" type="button" data-h="store" data-label="Store" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span>Store</span></button>
-                            </div>
+                        <nav class="menu" id="menu" hidden aria-label="Account">
+                            <div class="menu-user"><small>Signed in as</small><span id="home-user"></span></div>
                             <div class="menu-sep"></div>
-                            <button class="mi" id="logout" type="button"><span class="ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span><span>Log out</span></button>
+                            <button class="mi" type="button" data-h="profile" data-label="Profile" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span>Profile</span><i class="dot" id="msg-dot" hidden></i></button>
+                            <button class="mi" type="button" data-h="account" data-label="Account" aria-selected="false"><span class="ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span><span>Account settings</span></button>
+                            <div class="menu-sep"></div>
+                            <button class="mi" id="logout" type="button"><span class="ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span><span>Log out</span></button>
                         </nav>
                     </div>
                 </header>
@@ -757,7 +838,7 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
                 <!-- PROFILE -->
                 <div class="pane active" id="p-profile">
                     <h2 class="ptitle">Profile</h2>
-                    <p class="sub">How other players see you.</p>
+                    <p class="sub">This is how other players see you.</p>
                     <div class="card inbox" id="inbox" hidden></div>
                     <div class="card mm" id="mymatch" hidden></div>
                     <div class="card mm" id="lastm" hidden></div>
@@ -770,26 +851,54 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
                                 <div class="pf-meta" id="my-meta"></div>
                             </div>
                             <div class="pf-actions">
-                                <button class="btn ghost small" type="button" id="pfp-btn">Upload photo</button>
-                                <button class="btn ghost small" type="button" id="pfp-rm" hidden>Remove</button>
+                                <button class="btn ghost small" type="button" data-go="account">Edit profile</button>
                             </div>
-                            <input type="file" id="pfp-file" accept="image/*" hidden>
+                            <p class="pf-bio" id="my-bio-view"></p>
                         </div>
-                        <div class="pf-grid">
-                            <div class="pf-main">
-                                <div id="my-tier"></div>
-                                <div class="tiles" id="my-stats"></div>
+                        <div id="my-tier"></div>
+                        <div class="statsheet" id="my-stats"></div>
+                    </section>
+                </div>
+                <!-- ACCOUNT -->
+                <div class="pane" id="p-account">
+                    <h2 class="ptitle">Account settings</h2>
+                    <p class="sub">Manage your photo, bio and session.</p>
+                    <div class="acct">
+                        <section class="acct-row">
+                            <div class="acct-l"><h3>Profile photo</h3><p>Shown next to your name everywhere on the site. Square images look best.</p></div>
+                            <div class="acct-r">
+                                <div class="acct-photo">
+                                    <div id="acc-avatar"></div>
+                                    <div class="acct-btns">
+                                        <button class="btn small" type="button" id="pfp-btn">Upload photo</button>
+                                        <button class="btn ghost small" type="button" id="pfp-rm" hidden>Remove</button>
+                                    </div>
+                                </div>
+                                <input type="file" id="pfp-file" accept="image/*" hidden>
                             </div>
-                            <div class="card pf-about">
-                                <h3>About</h3>
+                        </section>
+                        <section class="acct-row">
+                            <div class="acct-l"><h3>Bio</h3><p>A short line about you on your profile. 200 characters max.</p></div>
+                            <div class="acct-r">
                                 <label class="f"><span class="l">Bio <em id="bio-count">0/200</em></span>
                                     <textarea id="my-bio" maxlength="200" placeholder="Tell everyone about yourself…"></textarea>
                                 </label>
-                                <div class="msg" id="pf-msg" role="alert"></div>
                                 <button class="btn" type="button" id="bio-save"><span class="spin"></span><span class="t">Save bio</span></button>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                        <section class="acct-row">
+                            <div class="acct-l"><h3>Account</h3><p>Your gamertag can’t be changed here. Ask an admin if you need a new one.</p></div>
+                            <div class="acct-r">
+                                <dl class="acct-dl">
+                                    <div><dt>Gamertag</dt><dd id="acc-user"></dd></div>
+                                    <div><dt>Member since</dt><dd id="acc-joined"></dd></div>
+                                    <div><dt>Token balance</dt><dd id="acc-tokens"></dd></div>
+                                </dl>
+                                <button class="btn ghost" type="button" id="acc-logout">Log out</button>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="msg" id="pf-msg" role="alert"></div>
                 </div>
                 <!-- EVENTS -->
                 <div class="pane" id="p-events">
@@ -868,16 +977,6 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
                             <h2><img src="assets/report.webp" alt="" onerror="this.remove()">Player reports <span id="ad-repn" class="dim"></span></h2>
                             <div id="ad-replist"></div>
                         </div>
-                        <div class="card" id="ad-evc">
-                            <div class="evadm-top">
-                                <h2>Events</h2>
-                                <button class="btn sm" id="ad-ev-new" type="button">New event</button>
-                            </div>
-                            <p class="dim" style="margin:8px 0 4px">Create and edit events, or switch them between following their schedule, unlocked (live now) and locked. While an event is live, every lobby the host creates joins it automatically. Times are in Central time.</p>
-                            <div class="msg" id="ad-ev-msg" hidden></div>
-                            <div id="ad-ev-form" hidden></div>
-                            <div id="ad-ev-list"></div>
-                        </div>
                         <div class="card" id="ad-pl" style="margin-bottom:14px">
                             <h2>Player tools</h2>
                             <p class="dim" style="margin:8px 0 12px">Type a gamertag, then give / take tokens or ban / unban. (1,000 tokens = $1.)</p>
@@ -945,6 +1044,16 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
                             </div>
                             <div class="hevnote" id="ho-evnote" hidden></div>
                             <div class="msg" id="ho-amsg" hidden></div>
+                        </div>
+                        <div class="card" id="ad-evc">
+                            <div class="evadm-top">
+                                <h2>Events</h2>
+                                <button class="btn sm" id="ad-ev-new" type="button">New event</button>
+                            </div>
+                            <p class="dim" style="margin:8px 0 4px">Create and edit events, or switch them between following their schedule, unlocked (live now) and locked. While an event is live, every lobby the host creates joins it automatically. Times are in Central time.</p>
+                            <div class="msg" id="ad-ev-msg" hidden></div>
+                            <div id="ad-ev-form" hidden></div>
+                            <div id="ad-ev-list"></div>
                         </div>
                         <div class="card" id="ho-ntf">
                             <h2>Send notification</h2>
@@ -1142,6 +1251,7 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
       ME=r; MYRANK=null; syncAdminMenu(); renderMe(); loadRank(); setTab('profile'); show('home'); startGames();
     }).catch(function(err){ show('auth'); msg('li-msg',friendly(err)); });
   }
+  $('acc-logout').onclick=function(){ $('logout').click(); };
   $('logout').onclick=function(){ var t=getToken(); leave(); if(t) rpc('logout',{p_token:t}).catch(function(){}); };
 
   function fmtTok(n){ return (Math.floor(Number(n)||0)).toLocaleString(); }
@@ -1170,20 +1280,25 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
   function ratio(a,b){ a=Number(a)||0; b=Number(b)||0; return b>0?a/b:a; }
   function pct(a,b){ a=Number(a)||0; b=Number(b)||0; return b>0?Math.round(a/b*1000)/10+'%':'\u2014'; }
   function statsNode(p){
-    var w=el('div','tiles'), gp=(Number(p.wins)||0)+(Number(p.losses)||0), hasL=p.losses!==undefined&&p.losses!==null;
-    [['PR',fmtPR(p.pr),'pr','hl'],
-     ['Win rate',hasL?pct(p.wins,gp):undefined,'1st'],
-     ['K/D',(p.kills!==undefined&&p.deaths!==undefined)?ratio(p.kills,p.deaths).toFixed(2):undefined,'kill'],
-     ['Tokens',p.tokens===undefined?undefined:fmtTok(p.tokens),'token.png'],
-     ['Win streak',p.streak,'winstreak'],
-     ['Wins',p.wins],['Losses',hasL?p.losses:undefined],['Kills',p.kills],['Deaths',p.deaths],['Aces',p.aces,'gun_icon']
-    ].forEach(function(s){
-      if(s[1]===undefined||s[1]===null) return;
-      var c=el('div','tile'+(s[3]?' '+s[3]:'')), lb=el('small');
-      if(s[2]){ var ic=el('img'); ic.src='assets/'+s[2]+(s[2].indexOf('.')<0?'.webp':''); ic.alt=''; ic.onerror=function(){ic.remove()}; lb.appendChild(ic); }
-      lb.appendChild(document.createTextNode(s[0])); c.appendChild(lb); c.appendChild(el('b',null,String(s[1]))); w.appendChild(c);
+    var w=el('div','statsheet'), gp=(Number(p.wins)||0)+(Number(p.losses)||0), hasL=p.losses!==undefined&&p.losses!==null;
+    [['Rating',[['PR',fmtPR(p.pr),'hl'],['Win streak',p.streak],['Tokens',p.tokens===undefined?undefined:fmtTok(p.tokens)]]],
+     ['Record',[['Wins',p.wins],['Losses',hasL?p.losses:undefined],['Win rate',hasL?pct(p.wins,gp):undefined]]],
+     ['Combat',[['Kills',p.kills],['Deaths',p.deaths],['K/D',(p.kills!==undefined&&p.deaths!==undefined)?ratio(p.kills,p.deaths).toFixed(2):undefined],['Aces',p.aces]]]
+    ].forEach(function(g){
+      var rows=g[1].filter(function(r){ return r[1]!==undefined&&r[1]!==null; }); if(!rows.length) return;
+      var sec=el('div','sg'); sec.appendChild(el('h4',null,g[0])); var dl=el('dl');
+      rows.forEach(function(r){ var d=el('div','sr'+(r[2]?' '+r[2]:'')); d.appendChild(el('dt',null,r[0])); d.appendChild(el('dd',null,String(r[1]))); dl.appendChild(d); });
+      sec.appendChild(dl); w.appendChild(sec);
     });
     return w;
+  }
+  /* one bar showing how often a player finishes 1st / 2nd / 3rd / 4th */
+  function spreadNode(P){
+    P=P||{}; var tot=[1,2,3,4].reduce(function(s,n){ return s+(P['p'+n]||0); },0);
+    var sp=el('div','spread'), bar=el('div','spread-bar'), lg=el('div','spread-leg');
+    [1,2,3,4].forEach(function(n){ var c=P['p'+n]||0; if(c){ var i=el('i'); i.style.setProperty('--c',PLC[n]); i.style.width=(c/tot*100)+'%'; i.title=PL[n]+': '+c; bar.appendChild(i); }
+      var s2=el('span'), dot=el('i'); dot.style.setProperty('--c',PLC[n]); s2.appendChild(dot); s2.appendChild(document.createTextNode(PL[n]+' ')); s2.appendChild(el('b',null,String(c))); if(tot) s2.appendChild(document.createTextNode(' · '+pct(c,tot))); lg.appendChild(s2); });
+    sp.appendChild(bar); sp.appendChild(lg); return sp;
   }
 
   /* ---------- HOST / DEV badges ---------- */
@@ -1233,9 +1348,20 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
     var av=$('my-avatar'); av.textContent=''; av.appendChild(avatarNode(ME.avatar,'big'));
     $('pfp-rm').hidden=!ME.avatar; $('pfp-btn').textContent=ME.avatar?'Change photo':'Upload photo';
     $('my-bio').value=ME.bio||''; $('bio-count').textContent=($('my-bio').value.length)+'/200';
+    var aa=$('acc-avatar'); aa.textContent=''; aa.appendChild(avatarNode(ME.avatar,'big'));
+    var ba=$('bar-av'); ba.textContent=''; ba.appendChild(avatarNode(ME.avatar,'sm')); $('bar-name').textContent=ME.username;
+    $('acc-user').textContent=ME.username;
+    $('acc-joined').textContent=ME.joined?new Date(ME.joined).toLocaleDateString(undefined,{month:'long',day:'numeric',year:'numeric'}):'\u2014';
+    renderTokens(); renderBioView();
     var st=$('my-stats'); st.replaceWith(Object.assign(statsNode(ME),{id:'my-stats'}));
     var tn=tierNode(ME.pr); tn.id='my-tier'; $('my-tier').replaceWith(tn);
     renderMeta();
+  }
+  function renderTokens(){ if(ME&&$('acc-tokens')) $('acc-tokens').textContent=fmtTok(ME.tokens)+' (\u2248 '+fmtUsd(ME.tokens)+')'; }
+  function renderBioView(){
+    var b=$('my-bio-view'); if(!b||!ME) return; b.textContent=''; b.classList.toggle('none',!ME.bio);
+    if(ME.bio) b.textContent=ME.bio;
+    else { b.appendChild(document.createTextNode('No bio yet. ')); var l=el('button','linkbtn','Add one in Account settings'); l.type='button'; l.onclick=function(){ setTab('account'); window.scrollTo({top:0}); }; b.appendChild(l); }
   }
   var MYRANK=null;
   function renderMeta(){
@@ -1252,7 +1378,7 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
   $('my-bio').addEventListener('input',function(){ $('bio-count').textContent=this.value.length+'/200'; });
   $('bio-save').onclick=function(){
     msg('pf-msg'); var btn=$('bio-save'), v=$('my-bio').value.trim(); busy(btn,true);
-    call('update_profile',{p_bio:v}).then(function(){ ME.bio=v||null; msg('pf-msg','Bio saved.','ok'); })
+    call('update_profile',{p_bio:v}).then(function(){ ME.bio=v||null; renderBioView(); msg('pf-msg','Bio saved.','ok'); })
       .catch(function(err){ msg('pf-msg',friendly(err)); }).then(function(){ busy(btn,false); });
   };
   function resizeImage(file){
@@ -1503,7 +1629,7 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
     var act=document.querySelector('.pane.active');
     if(ME&&act&&((act.id==='p-admin'&&!d)||(act.id==='p-host'&&!h))) setTab('profile');
   }
-  var PANES=['profile','events','notifs','stats','board','players','store','admin','host'];
+  var PANES=['profile','account','events','notifs','stats','board','players','store','admin','host'];
   var NAVOF={board:'players'};   /* which nav item stays lit for sub-views */
   function setTab(name){
     if(name==='join') name='events';
@@ -1714,7 +1840,7 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
   }
   function startGames(){ stopGames(); pollGames(); loadBadges(); bT=setInterval(loadBadges,15000); pT=setInterval(pollGames,3000); tT=setInterval(tick,250); }
   var lastAt;
-  function refreshStats(){ call('me').then(function(r){ if(r){ Object.assign(ME,r); $('my-stats').replaceWith(Object.assign(statsNode(ME),{id:'my-stats'})); var tn=tierNode(ME.pr); tn.id='my-tier'; $('my-tier').replaceWith(tn); renderMeta(); loadRank(); if($('p-stats').classList.contains('active')) loadMyStats(); if($('p-board').classList.contains('active')) loadBoard(); if($('p-store').classList.contains('active')) renderStore(); } }).catch(function(){}); }
+  function refreshStats(){ call('me').then(function(r){ if(r){ Object.assign(ME,r); $('my-stats').replaceWith(Object.assign(statsNode(ME),{id:'my-stats'})); var tn=tierNode(ME.pr); tn.id='my-tier'; $('my-tier').replaceWith(tn); renderMeta(); renderTokens(); loadRank(); if($('p-stats').classList.contains('active')) loadMyStats(); if($('p-board').classList.contains('active')) loadBoard(); if($('p-store').classList.contains('active')) renderStore(); } }).catch(function(){}); }
   var CHECK='<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="44" fill="#22c55e"/><path d="M27 50l15 15 28-32" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var CROSS='<svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="44" fill="#ef4444"/><path d="M32 32l32 32M64 32L32 64" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/></svg>';
   var AV={}, AVpend={};
@@ -1841,15 +1967,9 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
     call('player_history',{p_username:u}).then(function(h){
       box.textContent='';
       if(!lean){
-      var pw=el('div','places');
-      [1,2,3,4].forEach(function(n){ var c=el('div','plc-card'); c.appendChild(placeImg(n)); c.appendChild(el('b',null,String(h.places['p'+n]||0))); c.appendChild(el('small',null,PL[n])); pw.appendChild(c); });
-      box.appendChild(pw);
-      /* K/D ratio + win % (simple math from the totals and the placement counts) */
-      var w1=h.places.p1||0, tot=[1,2,3,4].reduce(function(a,n){ return a+(h.places['p'+n]||0); },0), rt=el('div','places two');
-      function tile(label,val,sub){ var c=el('div','plc-card'); c.appendChild(el('b',null,val)); c.appendChild(el('small',null,label)); if(sub) c.appendChild(el('small',null,sub)); rt.appendChild(c); }
-      if(p&&p.kills!==undefined&&p.deaths!==undefined){ var kd=Number(p.deaths)>0?Number(p.kills)/Number(p.deaths):Number(p.kills); tile('K/D ratio',kd.toFixed(2),p.kills+' K \u00b7 '+p.deaths+' D'); }
-      var hasL=p&&p.wins!==undefined&&p.losses!==undefined&&p.losses!==null, gw=hasL?Number(p.wins)||0:w1, gp=hasL?gw+(Number(p.losses)||0):tot;
-      tile('Win %',gp>0?(Math.round(gw/gp*1000)/10)+'%':'\u2014',gp>0?gw+' of '+gp+' game'+(gp===1?'':'s'):'no games yet');
+        var tp=[1,2,3,4].reduce(function(a,n){ return a+(h.places['p'+n]||0); },0);
+        var ph=el('div','hh'); ph.appendChild(el('h3',null,'Placements')); ph.appendChild(el('span',null,tp+' placed game'+(tp===1?'':'s'))); box.appendChild(ph);
+        if(tp) box.appendChild(spreadNode(h.places)); else box.appendChild(el('div','empty','No placed games yet.'));
       }
       var ms=h.matches.slice().reverse(), vals=[Number(h.start)].concat(ms.map(function(m){return Number(m.pr_after)}));
       var hh=el('div','hh'), pi=el('img'); pi.src='assets/pr.webp'; pi.alt=''; pi.onerror=function(){pi.remove()};
@@ -1922,10 +2042,7 @@ body.in-app .evf input[type=datetime-local] { width: 100%; background: var(--bg0
       var P=I.places||{}, tot=[1,2,3,4].reduce(function(s,n){ return s+(P['p'+n]||0); },0);
       if(tot){
         sect(rest,'Placements',tot+' placed game'+(tot===1?'':'s'));
-        var sp=el('div','spread'), bar=el('div','spread-bar'), lg=el('div','spread-leg');
-        [1,2,3,4].forEach(function(n){ var c=P['p'+n]||0; if(c){ var i=el('i'); i.style.setProperty('--c',PLC[n]); i.style.width=(c/tot*100)+'%'; i.title=PL[n]+': '+c; bar.appendChild(i); }
-          var s2=el('span'), dot=el('i'); dot.style.setProperty('--c',PLC[n]); s2.appendChild(dot); s2.appendChild(document.createTextNode(PL[n]+' ')); s2.appendChild(el('b',null,String(c))); s2.appendChild(document.createTextNode(' · '+pct(c,tot))); lg.appendChild(s2); });
-        sp.appendChild(bar); sp.appendChild(lg); rest.appendChild(sp);
+        rest.appendChild(spreadNode(P));
       }
       /* rivals */
       var rv=I.rivals||[];
@@ -2289,7 +2406,7 @@ function poll(){return rpc('admin_reports').then(renderRep).catch(function(){})}
 function openPanel(){poll();loadKnives();loadBd();loadRl()}
 setInterval(function(){if(paneOpen())poll()},5000);
 window.__mlAdminOpen=openPanel;
-window.__mlAdminReset=function(){repSig='';KV=[];['replist','bd-list','rl-list','kv-grid'].forEach(function(i){$(i).textContent=''});$('ad-rep').hidden=true;['pl-msg','kv-msg','bd-msg','rl-msg'].forEach(function(i){say(i)})};
+window.__mlAdminReset=function(){repSig='';KV=[];['replist','bd-list','rl-list','kv-grid'].forEach(function(i){$('ad-'+i).textContent=''});$('ad-rep').hidden=true;['pl-msg','kv-msg','bd-msg','rl-msg'].forEach(function(i){say('ad-'+i)})};
 var repSig='';
 function renderRep(list){
 var sg=JSON.stringify(list);if(sg===repSig)return;repSig=sg;
@@ -2372,7 +2489,7 @@ setInterval(function(){if(paneOpen())poll()},2000);
 setInterval(function(){if(paneOpen())loadBadges()},5000);
 setInterval(function(){if(paneOpen())tick()},250);
 window.__mlHostOpen=openPanel;
-window.__mlHostReset=function(){S=null;for(var id in cache){cache[id].node.remove();delete cache[id]}['lobs','nt-list'].forEach(function(i){$(i).textContent=''});['amsg','nt-msg'].forEach(function(i){say(i)});BADGES={}};
+window.__mlHostReset=function(){S=null;for(var id in cache){cache[id].node.remove();delete cache[id]}['lobs','nt-list'].forEach(function(i){$('ho-'+i).textContent=''});['amsg','nt-msg'].forEach(function(i){say('ho-'+i)});BADGES={}};
 $('ho-cm').onclick=function(e){var m=e.target.getAttribute('data-m');if(!m)return;mode=+m;[].forEach.call($('ho-cm').children,function(b){b.classList.toggle('on',b.getAttribute('data-m')==m)})};
 $('ho-mk').onclick=function(){var n=$('ho-nm').value.trim();if(!n)return say('ho-amsg','Give the lobby a name.');say('ho-amsg');
 rpc('admin_create',{p_name:n,p_mode:mode}).then(function(){$('ho-nm').value='';poll()}).catch(function(e){say('ho-amsg',err(e))})};
@@ -2486,20 +2603,20 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
     var guess=Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]),o=offMin(new Date(guess)),t=guess-o*60000,o2=offMin(new Date(t));if(o2!==o)t=guess-o2*60000;return new Date(t).toISOString()}
 
   function load(){
-    return ML.panel('dev','admin_events',{}).then(function(l){API=true;LIST=l||[];sig='';render()})
+    return ML.panel('host','admin_events',{}).then(function(l){API=true;LIST=l||[];sig='';render()})
       .catch(function(e){if(missing(e)){API=false;LIST=null;sig='';render()}else say(err(e))});
   }
   function events(){return API?(LIST||[]):(ML.events()||[])}
   function setMode(e,m,seg){
     seg.querySelectorAll('button').forEach(function(b){b.disabled=true});say();
-    ML.panel('dev','admin_set_event',{p_key:e.key,p_mode:m}).then(function(){
+    ML.panel('host','admin_set_event',{p_key:e.key,p_mode:m}).then(function(){
       say(e.name+': '+(m==='on'?'unlocked. New lobbies will join it.':m==='off'?'locked.':'back on its schedule.'));
       ML.refresh();return load();
     }).catch(function(x){say(err(x));seg.querySelectorAll('button').forEach(function(b){b.disabled=false})});
   }
   function del(e){
     if(!confirm('Delete "'+e.name+'"? Its lobbies and saved games are kept, but they will no longer count toward this event\u2019s leaderboard.'))return;
-    say();ML.panel('dev','admin_delete_event',{p_key:e.key}).then(function(){say('Deleted '+e.name+'.');if(EDIT&&EDIT.key===e.key)closeForm();ML.refresh();load()}).catch(function(x){say(err(x))});
+    say();ML.panel('host','admin_delete_event',{p_key:e.key}).then(function(){say('Deleted '+e.name+'.');if(EDIT&&EDIT.key===e.key)closeForm();ML.refresh();load()}).catch(function(x){say(err(x))});
   }
   function render(){
     var box=$('ad-ev-list');if(!box)return;
@@ -2507,7 +2624,7 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
     var s=JSON.stringify([API,list.map(function(e){return[e.key,e.name,e.starts_at,e.ends_at,e.mode,e.lobbies,e.players,ML.evState(e)]})]);
     if(s===sig)return;sig=s;box.textContent='';
     $('ad-ev-new').hidden=API===false;
-    if(API===false){var n=el('div','hevnote','Run the updated SQL in Supabase to create, edit and delete events here. Lock / unlock still works.');n.style.marginTop='12px';box.appendChild(n)}
+    if(API===false){var n=el('div','hevnote','Run the latest SQL update in Supabase so hosts can create, edit, lock and delete events here.');n.style.marginTop='12px';box.appendChild(n)}
     if(!list.length){var em=el('div','dim','No events yet. Click New event to make one.');em.style.marginTop='12px';box.appendChild(em);return}
     list.forEach(function(e){
       var st=ML.evState(e),c=el('div','evrow2'),t=el('div','t');
@@ -2522,7 +2639,7 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
         var b=el('button',e.mode===o[0]?'on':'',o[1]);b.type='button';
         b.onclick=function(){if(e.mode!==o[0])setMode(e,o[0],seg)};seg.appendChild(b);
       });
-      ctl.appendChild(seg);ctl.appendChild(el('span','dim',HELP[e.mode]||''));c.appendChild(ctl);box.appendChild(c);
+      ctl.appendChild(seg);ctl.appendChild(el('span','dim',HELP[e.mode]||''));if(API)c.appendChild(ctl);box.appendChild(c);
     });
   }
 
@@ -2568,7 +2685,7 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
       var args={p_name:name,p_image:im.value.trim()||null,p_starts_at:a,p_ends_at:b,p_mode:md.value,p_blurb:bl.value.trim()||null,p_format:fmt.value.trim()||null,p_rules:rules,p_prizes:prizes};
       if(!isNew)args.p_key=e.key;
       fsay();sv.disabled=true;
-      ML.panel('dev','admin_save_event',args).then(function(r){
+      ML.panel('host','admin_save_event',args).then(function(r){
         closeForm();say((r&&r.created?'Created ':'Saved ')+name+'.');ML.refresh();load();
       }).catch(function(x){fsay(err(x));sv.disabled=false});
     };
@@ -2584,21 +2701,21 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
     n.hidden=false;n.textContent=live.name+' is live. New lobbies you create now are added to it automatically.';
   }
   document.addEventListener('ml-games',function(){render();hostNote()});
-  var prevOpen=window.__mlAdminOpen;
-  window.__mlAdminOpen=function(){if(prevOpen)prevOpen();load()};
-  var prevReset=window.__mlAdminReset;
-  window.__mlAdminReset=function(){if(prevReset)prevReset();sig='';LIST=null;API=null;closeForm();var b=$('ad-ev-list');if(b)b.textContent='';say()};
+  var prevOpen=window.__mlHostOpen;
+  window.__mlHostOpen=function(){if(prevOpen)prevOpen();load()};
+  var prevReset=window.__mlHostReset;
+  window.__mlHostReset=function(){if(prevReset)prevReset();sig='';LIST=null;API=null;closeForm();var b=$('ad-ev-list');if(b)b.textContent='';say()};
 })();
 </script>
         <script>
 (function(){
   'use strict';
   var $=function(id){return document.getElementById(id)};
-  var home=$('home'), btn=$('menu-btn'), menu=$('menu'), scrim=$('menu-scrim'), label=$('menu-label'), mdot=$('menu-dot');
+  var home=$('home'), btn=$('menu-btn'), menu=$('menu'), scrim=$('menu-scrim'), mdot=$('menu-dot');
   var logo=document.querySelector('header.top img'); if(logo) $('bar-logo').src=logo.src;
 
-  /* hamburger */
-  function openMenu(o){ menu.hidden=!o; scrim.hidden=!o; btn.setAttribute('aria-expanded',o?'true':'false'); btn.setAttribute('aria-label',o?'Close menu':'Open menu'); }
+  /* account menu (top right) */
+  function openMenu(o){ menu.hidden=!o; scrim.hidden=!o; btn.setAttribute('aria-expanded',o?'true':'false'); }
   btn.addEventListener('click',function(e){ e.stopPropagation(); openMenu(menu.hidden); });
   scrim.addEventListener('click',function(){ openMenu(false); });
   menu.addEventListener('click',function(e){ if(e.target.closest('.mi')) openMenu(false); });
@@ -2607,11 +2724,16 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
   function syncMode(){ var on=!home.hidden; document.body.classList.toggle('in-app',on); if(!on) openMenu(false); }
   new MutationObserver(syncMode).observe(home,{attributes:true,attributeFilter:['hidden']}); syncMode();
 
-  /* page title in the bar follows whichever nav item is lit */
-  var items=home.querySelectorAll('.appbar [data-h]');
-  function syncLabel(){ items.forEach(function(b){ if(b.getAttribute('aria-selected')==='true') label.textContent=b.getAttribute('data-label'); }); }
-  var mo=new MutationObserver(syncLabel);
-  items.forEach(function(b){ mo.observe(b,{attributes:true,attributeFilter:['aria-selected']}); }); syncLabel();
+  /* the account button lights up while Profile or Account is open */
+  var mitems=menu.querySelectorAll('[data-h]');
+  function syncAcct(){ var on=false; mitems.forEach(function(b){ if(b.getAttribute('aria-selected')==='true') on=true; }); btn.classList.toggle('on',on); }
+  var mo=new MutationObserver(syncAcct);
+  mitems.forEach(function(b){ mo.observe(b,{attributes:true,attributeFilter:['aria-selected']}); }); syncAcct();
+
+  /* keep the active top link visible when the nav scrolls sideways on phones */
+  var nav=home.querySelector('.ab-nav');
+  new MutationObserver(function(){ var a=nav.querySelector('[aria-selected="true"]'); if(a&&a.scrollIntoView&&nav.scrollWidth>nav.clientWidth) a.scrollIntoView({block:'nearest',inline:'nearest'}); })
+    .observe(nav,{attributes:true,subtree:true,attributeFilter:['aria-selected']});
 
   /* the menu button only shows the unread-message dot (bell + Events carry their own) */
   var msgDot=$('msg-dot');
