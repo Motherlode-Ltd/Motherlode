@@ -3227,11 +3227,14 @@ function tick(){[].forEach.call(document.querySelectorAll('[data-t]'),function(b
       b.onclick=function(){var v=o[0]==='1';if(v===!!d.signup_open)return;ML.panel('host','admin_event_signups_open',{p_key:e.key,p_open:v}).then(function(){d.signup_open=v;msay('Sign-ups are now '+(v?'open':'closed')+'.',true);drawManage();ML.refresh()}).catch(function(x){msay(err(x))})};seg.appendChild(b)});
     var sh=el('div','mg-hs');sh.appendChild(el('span','dim','Sign-ups'));sh.appendChild(seg);
     sec(w,'Players ('+MG.su.length+')',sh);
-    var addr=el('div','crow'),sel=el('select');var o0=el('option',null,'Add a player…');o0.value='';sel.appendChild(o0);
+    w.appendChild(el('div','lbl','Sign a player up'));
+    var addr=el('div','crow'),sel=el('input'),dl=el('datalist');dl.id='mg-su-dl';sel.type='text';sel.maxLength=40;sel.autocomplete='off';sel.placeholder='Type a username';sel.setAttribute('list','mg-su-dl');sel.disabled=closed;sel.value=MG.addv||'';sel.oninput=function(){MG.addv=sel.value};
     var have={};MG.su.forEach(function(s){have[s.u.toLowerCase()]=1});
-    (MG.all||[]).forEach(function(u){if(have[u.toLowerCase()])return;var o=el('option',null,u);o.value=u;sel.appendChild(o)});
-    var ab=el('button','btn sm','Add');ab.type='button';ab.onclick=function(){if(!sel.value)return;signup(sel.value,true)};
-    addr.appendChild(sel);addr.appendChild(ab);w.appendChild(addr);
+    (MG.all||[]).forEach(function(u){if(have[u.toLowerCase()])return;var o=el('option');o.value=u;dl.appendChild(o)});
+    var ab=el('button','btn sm','Sign up player');ab.type='button';ab.disabled=closed;ab.onclick=function(){var u=sel.value.trim();if(!u)return msay('Type the player\u2019s username.');if(have[u.toLowerCase()])return msay(u+' is already signed up.');MG.addv='';signup(u,true)};
+    sel.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();ab.onclick()}};
+    addr.appendChild(sel);addr.appendChild(dl);addr.appendChild(ab);w.appendChild(addr);
+    w.appendChild(el('div','dim',closed?'This event has ended. Reopen it to change sign-ups.':'Works even when sign-ups are closed or the player isn\u2019t logged in. They go to the bottom of the seeding.'));
     var list=el('div','mg-su');
     if(!MG.su.length)list.appendChild(el('div','dim','Nobody has signed up yet. Players sign up from the Events page, or add them here.'));
     MG.su.forEach(function(s,i){
