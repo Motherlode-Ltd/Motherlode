@@ -217,7 +217,7 @@ body.in-app .card.evc.live { border-color: rgba(239,68,68,.7); box-shadow: 0 0 0
 .evme { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: #0e0e0e; border: 1px solid rgba(255,255,255,.22); padding: 12px 14px; font-size: 14px; color: rgba(255,255,255,.8); }
 .evme b { font-size: 20px; color: #fff; }
 .evlb { display: grid; gap: 4px; }
-.evrow { display: grid; grid-template-columns: 40px minmax(0,1fr) 30px 30px 32px 54px; align-items: center; gap: 6px; padding: 8px 10px; background: #0b0b0b; border: 1px solid rgba(255,255,255,.08); border-left: 3px solid rgba(255,255,255,.08); font-size: 14px; font-variant-numeric: tabular-nums; }
+.evrow { display: grid; grid-template-columns: 40px minmax(0,1fr) 30px 30px 32px 30px 54px; align-items: center; gap: 6px; padding: 8px 10px; background: #0b0b0b; border: 1px solid rgba(255,255,255,.08); border-left: 3px solid rgba(255,255,255,.08); font-size: 14px; font-variant-numeric: tabular-nums; }
 .evrow.head { background: none; border-color: transparent; padding-top: 0; padding-bottom: 2px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.45); }
 .evrow .n { text-align: right; color: rgba(255,255,255,.75); }
 .evrow .pts { text-align: right; font-weight: 700; }
@@ -240,7 +240,7 @@ body.in-app .card.evc.live { border-color: rgba(239,68,68,.7); box-shadow: 0 0 0
 .evstat.live { background: #ef4444; border-color: #ef4444; color: #fff; }
 #ad-evc .seg { display: flex; width: 100%; }
 #ad-evc .seg button { flex: 1 1 0; padding: 10px 6px; }
-@media (max-width: 420px) { .evbody { padding: 14px 12px; } .evstrip, .evcta { padding-left: 12px; padding-right: 12px; } .evrow { grid-template-columns: 34px minmax(0,1fr) 26px 26px 28px 48px; gap: 4px; padding: 8px; font-size: 13px; } .evpl img.av { width: 22px; height: 22px; } .evtab { font-size: 12px; letter-spacing: .06em; } }
+@media (max-width: 420px) { .evbody { padding: 14px 12px; } .evstrip, .evcta { padding-left: 12px; padding-right: 12px; } .evrow { grid-template-columns: 30px minmax(0,1fr) 24px 22px 26px 22px 46px; gap: 4px; padding: 8px; font-size: 13px; } .evpl img.av { width: 22px; height: 22px; } .evtab { font-size: 12px; letter-spacing: .06em; } }
 @media (max-width: 360px) { .evpl img.av { display: none; } }
 @media (prefers-reduced-motion: reduce) { .evpill.live::before { animation: none; } }
 </style>
@@ -2082,7 +2082,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     else bar.appendChild(el('span',null,'You haven\u2019t played an event game yet.'));
     body.appendChild(bar);
     var lb=el('div','evlb'), hd=el('div','evrow head');
-    ['#','Player','GP','W','K','Pts'].forEach(function(t,i){ hd.appendChild(el('span',i>1?'n':null,t)); }); lb.appendChild(hd);
+    ['#','Player','GP','W','K','A','Pts'].forEach(function(t,i){ hd.appendChild(el('span',i>1?'n':null,t)); }); lb.appendChild(hd);
     var names=rows.map(function(r){ return r.username; });
     rows.forEach(function(r){
       var row=el('div','evrow'+(r.rank<=3?' r'+r.rank:'')+(r.username===me?' me':''));
@@ -2090,7 +2090,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
       var pb=el('button','evpl'); pb.type='button'; pb.onclick=function(){ openByName(r.username); };
       var av=el('img','av'); av.alt=''; av.src=MEMBER; if(AV[r.username]){ av.src=AV[r.username]; av.className='av pic'; } pb.appendChild(av);
       var nm=el('span','nm'); addName(nm,r.username); pb.appendChild(nm); row.appendChild(pb);
-      row.appendChild(el('span','n',String(r.games))); row.appendChild(el('span','n',String(r.wins))); row.appendChild(el('span','n',String(r.kills)));
+      row.appendChild(el('span','n',String(r.games))); row.appendChild(el('span','n',String(r.wins))); row.appendChild(el('span','n',String(r.kills))); row.appendChild(el('span','n',String(r.aces||0)));
       row.appendChild(el('span','pts',(r.pts>0?'+':'')+r.pts)); lb.appendChild(row);
     });
     body.appendChild(lb); ensureAvatars(names);
