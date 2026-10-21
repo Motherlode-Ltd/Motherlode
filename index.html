@@ -695,6 +695,9 @@ body.in-app .appbar .menu { left: auto; right: 0; width: 240px; transform-origin
 .statsheet .sr { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--bd); font-size: 14px; }
 .statsheet .sr:last-child { border-bottom: 0; }
 .statsheet dt { color: var(--tx2); }
+.statsheet dt:has(.sic) { display: inline-flex; align-items: center; gap: 8px; }
+.statsheet .sr:has(.sic) { align-items: center; }
+.statsheet .sic { width: 20px; height: 20px; object-fit: contain; flex: none; }
 .statsheet dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
 .statsheet .sr.hl dd { color: var(--ac); }
 /* inside the player popup: no outer box either */
@@ -1399,6 +1402,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   }
   function ratio(a,b){ a=Number(a)||0; b=Number(b)||0; return b>0?a/b:a; }
   function pct(a,b){ a=Number(a)||0; b=Number(b)||0; return b>0?Math.round(a/b*1000)/10+'%':'\u2014'; }
+  var STATIC={'PR':'pr','Kills':'kill','Win streak':'winstreak','Aces':'gun_icon','Wins':'1st'};
   function statsNode(p){
     var w=el('div','statsheet'), gp=(Number(p.wins)||0)+(Number(p.losses)||0), hasL=p.losses!==undefined&&p.losses!==null;
     [['Rating',[['PR',fmtPR(p.pr),'hl'],['Win streak',p.streak],['Tokens',p.tokens===undefined?undefined:fmtTok(p.tokens)]]],
@@ -1407,7 +1411,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     ].forEach(function(g){
       var rows=g[1].filter(function(r){ return r[1]!==undefined&&r[1]!==null; }); if(!rows.length) return;
       var sec=el('div','sg'); sec.appendChild(el('h4',null,g[0])); var dl=el('dl');
-      rows.forEach(function(r){ var d=el('div','sr'+(r[2]?' '+r[2]:'')); d.appendChild(el('dt',null,r[0])); d.appendChild(el('dd',null,String(r[1]))); dl.appendChild(d); });
+      rows.forEach(function(r){ var d=el('div','sr'+(r[2]?' '+r[2]:'')), dt=el('dt'), ic=STATIC[r[0]]; if(ic){ var im=el('img','sic'); im.src='assets/'+ic+'.webp'; im.alt=''; im.onerror=function(){ im.remove(); }; dt.appendChild(im); } dt.appendChild(document.createTextNode(r[0])); d.appendChild(dt); d.appendChild(el('dd',null,String(r[1]))); dl.appendChild(d); });
       sec.appendChild(dl); w.appendChild(sec);
     });
     return w;
