@@ -1402,7 +1402,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   }
   function ratio(a,b){ a=Number(a)||0; b=Number(b)||0; return b>0?a/b:a; }
   function pct(a,b){ a=Number(a)||0; b=Number(b)||0; return b>0?Math.round(a/b*1000)/10+'%':'\u2014'; }
-  var STATIC={'PR':'pr','Kills':'kill','Win streak':'winstreak','Aces':'gun_icon','Wins':'1st'};
+  var STATIC={'PR':'pr','Kills':'kill','Win streak':'winstreak','Aces':'gun_icon','Wins':'1st','Top 3 event finishes':'events'};
   function statsNode(p){
     var w=el('div','statsheet'), gp=(Number(p.wins)||0)+(Number(p.losses)||0), hasL=p.losses!==undefined&&p.losses!==null;
     [['Rating',[['PR',fmtPR(p.pr),'hl'],['Win streak',p.streak],['Tokens',p.tokens===undefined?undefined:fmtTok(p.tokens)]]],
