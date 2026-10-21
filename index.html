@@ -1406,7 +1406,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   function statsNode(p){
     var w=el('div','statsheet'), gp=(Number(p.wins)||0)+(Number(p.losses)||0), hasL=p.losses!==undefined&&p.losses!==null;
     [['Rating',[['PR',fmtPR(p.pr),'hl'],['Win streak',p.streak],['Tokens',p.tokens===undefined?undefined:fmtTok(p.tokens)]]],
-     ['Record',[['Wins',p.wins],['Losses',hasL?p.losses:undefined],['Win rate',hasL?pct(p.wins,gp):undefined]]],
+     ['Record',[['Wins',p.wins],['Losses',hasL?p.losses:undefined],['Win rate',hasL?pct(p.wins,gp):undefined],['Top 3 event finishes',p.top3]]],
      ['Combat',[['Kills',p.kills],['Deaths',p.deaths],['K/D',(p.kills!==undefined&&p.deaths!==undefined)?ratio(p.kills,p.deaths).toFixed(2):undefined],['Aces',p.aces]]]
     ].forEach(function(g){
       var rows=g[1].filter(function(r){ return r[1]!==undefined&&r[1]!==null; }); if(!rows.length) return;
