@@ -1150,6 +1150,18 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
                             <h2><img src="assets/report.webp" alt="" onerror="this.remove()">Player reports <span id="ad-repn" class="dim"></span></h2>
                             <div id="ad-replist"></div>
                         </div>
+                        <div class="card" id="ad-new">
+                            <h2>Create account</h2>
+                            <p class="dim" style="margin:6px 0 12px">Make a login for a player. Give them the gamertag and password so they can sign in and see their stats.</p>
+                            <div class="crow">
+                                <input type="text" id="ad-new-u" maxlength="16" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Gamertag (3–16 letters, numbers, _)" aria-label="Gamertag">
+                                <input type="text" id="ad-new-p" maxlength="72" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Password (8+ characters)" aria-label="Password">
+                            </div>
+                            <div class="acts" style="margin-top:10px">
+                                <button class="btn ghost" id="ad-new-gen" type="button">Generate password</button><button class="btn" id="ad-new-go" type="button">Create account</button>
+                            </div>
+                            <div class="msg" id="ad-new-msg" hidden></div>
+                        </div>
                         <div class="card ad-pick" id="ad-pick">
                             <div class="evadm-top"><h2>Player</h2><button class="btn ghost sm" id="ad-pk-reload" type="button">Refresh list</button></div>
                             <p class="dim" style="margin:6px 0 12px">Pick a player. Everything below (tokens, ban, knives, badges, roles) is for this player only.</p>
@@ -2989,7 +3001,7 @@ function poll(){return rpc('admin_reports').then(renderRep).catch(function(){})}
 function openPanel(){poll();loadPlayers(true);loadKnives();loadBd();loadRl()}
 setInterval(function(){if(paneOpen())poll()},5000);
 window.__mlAdminOpen=openPanel;
-window.__mlAdminReset=function(){repSig='';KV=[];BD=[];RL={defs:[],holders:[]};PL=[];CUR='';['replist','bd-list','rl-list','kv-grid','kv-own'].forEach(function(i){$('ad-'+i).textContent=''});$('ad-rep').hidden=true;$('ad-for').hidden=true;$('ad-pk-sum').hidden=true;['pl-msg','kv-msg','bd-msg','rl-msg','pk-msg'].forEach(function(i){say('ad-'+i)})};
+window.__mlAdminReset=function(){$('ad-new-u').value='';$('ad-new-p').value='';say('ad-new-msg');repSig='';KV=[];BD=[];RL={defs:[],holders:[]};PL=[];CUR='';['replist','bd-list','rl-list','kv-grid','kv-own'].forEach(function(i){$('ad-'+i).textContent=''});$('ad-rep').hidden=true;$('ad-for').hidden=true;$('ad-pk-sum').hidden=true;['pl-msg','kv-msg','bd-msg','rl-msg','pk-msg'].forEach(function(i){say('ad-'+i)})};
 var repSig='';
 function renderRep(list){
 var sg=JSON.stringify(list);if(sg===repSig)return;repSig=sg;
@@ -3036,6 +3048,17 @@ function pick(){
 }
 $('ad-pk').onchange=pick;
 $('ad-pk-reload').onclick=function(){loadPlayers(true);loadKnives();loadBd();loadRl()};
+/* ---------- create account ---------- */
+$('ad-new-gen').onclick=function(){var c='abcdefghjkmnpqrstuvwxyz23456789',a=new Uint32Array(10),o='';crypto.getRandomValues(a);for(var i=0;i<10;i++)o+=c[a[i]%c.length];$('ad-new-p').value=o};
+$('ad-new-go').onclick=function(){var u=$('ad-new-u').value.trim(),pw=$('ad-new-p').value,b=$('ad-new-go');
+  if(!/^[A-Za-z0-9_]{3,16}$/.test(u))return say('ad-new-msg','Gamertag must be 3–16 letters, numbers or _.');
+  if(pw.length<8)return say('ad-new-msg','Password must be at least 8 characters.');
+  b.disabled=true;say('ad-new-msg');
+  rpc('admin_create_player',{p_username:u,p_password:pw}).then(function(r){var n=(r&&r.username)||u;
+    say('ad-new-msg','Created '+n+'. Login: '+n+' / '+pw+' (copy it now, the password isn’t shown again).');
+    $('ad-new-u').value='';$('ad-new-p').value='';loadPlayers(true)})
+  .catch(function(e){var m=e.message||'';say('ad-new-msg',/USERNAME_TAKEN/.test(m)?'That gamertag is already taken.':/BAD_USERNAME/.test(m)?'Gamertag must be 3–16 letters, numbers or _.':/BAD_PASSWORD/.test(m)?'Password must be at least 8 characters.':err(e))})
+  .then(function(){b.disabled=false})};
 
 /* ---------- tokens + ban ---------- */
 $('ad-pl-tk').onclick=function(){var u=cur();if(!u)return;var a=Math.round(+$('ad-pl-amt').value||0);if(!a)return say('ad-pl-msg','Type a token amount.');say('ad-pl-msg');
