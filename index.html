@@ -843,6 +843,50 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
 .bm-p.drop { color: #ffc9a0; }
 .bm-p.drop .bm-n { color: #ffc9a0; }
 .bm-p.drop .pl { color: #ffc9a0; }
+
+/* ---------- Model page ---------- */
+.md-ctl { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; margin: 14px 0 16px; }
+.md-f { display: grid; gap: 6px; min-width: 0; }
+.md-f > span { font-size: 12px; color: var(--tx3); }
+.md-f input { height: 40px; width: 160px; max-width: 100%; background: var(--s1); border: 1px solid var(--bd2); color: var(--tx); border-radius: var(--r); padding: 9px 11px; font: inherit; font-size: 15px; outline: none; }
+.md-f input:focus { border-color: var(--ac-line); }
+#md-body .sect-h { margin-top: 22px; }
+#md-body .kpi em { white-space: normal; }
+.md-chart { position: relative; background: var(--s1); border: 1px solid var(--bd); border-radius: 10px; padding: 12px 12px 10px; }
+.md-chart svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+.md-grid { stroke: var(--bd); stroke-width: 1; }
+.md-ax { fill: var(--tx3); font-size: 11px; font-variant-numeric: tabular-nums; }
+.md-band1 { fill: var(--ac); opacity: .13; }
+.md-band2 { fill: var(--ac); opacity: .22; }
+.md-med { fill: none; stroke: var(--ac); stroke-width: 2; stroke-dasharray: 5 4; stroke-linecap: round; }
+.md-hist { fill: none; stroke: var(--tx); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.md-now { stroke: var(--bd2); stroke-width: 1; stroke-dasharray: 2 3; }
+.md-dot { fill: var(--ac); stroke: var(--s1); stroke-width: 2; }
+.md-cross { stroke: var(--tx3); stroke-width: 1; }
+.md-tip { position: absolute; transform: translate(-50%, -100%); pointer-events: none; white-space: pre; background: var(--s3); border: 1px solid var(--bd2); color: var(--tx); border-radius: var(--r-sm); padding: 6px 9px; font-size: 12px; line-height: 1.45; font-variant-numeric: tabular-nums; box-shadow: 0 6px 18px rgba(0,0,0,.4); z-index: 2; }
+.md-leg { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; font-size: 12px; color: var(--tx2); }
+.md-leg span { display: inline-flex; align-items: center; gap: 7px; }
+.md-leg i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; background: var(--tx); }
+.md-leg i.md-k-med { background: repeating-linear-gradient(90deg, var(--ac) 0 5px, transparent 5px 8px); }
+.md-leg i.md-k-band { height: 10px; background: var(--ac); opacity: .35; }
+.md-leg i.md-k-obs { height: 10px; width: 10px; background: var(--ac); }
+.md-leg i.md-k-pois { width: 3px; height: 12px; background: var(--tx); }
+.md-rows { display: grid; gap: 8px; background: var(--s1); border: 1px solid var(--bd); border-radius: 10px; padding: 14px; }
+.md-row { display: grid; grid-template-columns: 64px minmax(0,1fr) 92px; gap: 12px; align-items: center; font-size: 13.5px; }
+.md-l { color: var(--tx2); }
+.md-track { position: relative; height: 14px; background: var(--bg0); border-radius: 4px; }
+.md-bar { position: absolute; left: 0; top: 0; bottom: 0; background: var(--c, var(--ac)); border-radius: 4px; min-width: 2px; }
+.md-ci { position: absolute; top: 50%; height: 2px; margin-top: -1px; background: var(--tx); opacity: .75; }
+.md-ci::before, .md-ci::after { content: ''; position: absolute; top: -4px; width: 2px; height: 10px; background: var(--tx); }
+.md-ci::before { left: 0; } .md-ci::after { right: 0; }
+.md-mk { position: absolute; top: -3px; bottom: -3px; width: 3px; margin-left: -1.5px; background: var(--tx); border-radius: 2px; box-shadow: 0 0 0 2px var(--s1); }
+.md-v { display: flex; justify-content: flex-end; align-items: baseline; gap: 6px; font-variant-numeric: tabular-nums; }
+.md-v b { font-weight: 600; }
+.md-v em { font-style: normal; font-size: 11.5px; color: var(--tx3); }
+.md-how { margin-top: 22px; background: var(--s1); border: 1px solid var(--bd); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--tx2); }
+.md-how summary { cursor: pointer; color: var(--tx); font-weight: 600; }
+.md-how p { margin: 10px 0 0; line-height: 1.5; }
+@media (max-width: 480px) { .md-row { grid-template-columns: 52px minmax(0,1fr) 78px; gap: 8px; } .md-f input { width: 130px; } }
 </style>
     </head>
     <body>
@@ -852,28 +896,28 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
             </header>
             <main class="stage" id="stage">
                 <section class="hero" aria-label="About">
-                    <h1>Motherlode CS:GO<br><span>play for prizes!</span></h1>
-                    <p>Your Motherlode account for CS:GO games. Create a gamertag and start climbing.</p>
+                    <h1>Motherlode CS:GO<br><span>stats &amp; models</span></h1>
+                    <p>Your private Motherlode stats page. Every game a host saves goes straight into your account.</p>
                     <ul>
                         <li>
-                            <b>1</b>Create your account
+                            <b>1</b>Get your login from a dev
                         </li>
                         <li>
-                            <b>2</b>Set up your player profile
+                            <b>2</b>Hosts put you in matches and save your stats
                         </li>
                         <li>
-                            <b>3</b>Queue up for matches
+                            <b>3</b>Track your stats and PR models
                         </li>
                     </ul>
                 </section>
                 <section class="card" aria-live="polite">
                     <!-- AUTH -->
                     <div class="view active" id="v-auth">
-                        <div class="tabs" role="tablist">
+                        <div class="tabs" role="tablist" hidden>
                             <button class="tab" role="tab" id="tab-signup" aria-selected="true" type="button">Sign up</button>
                             <button class="tab" role="tab" id="tab-login" aria-selected="false" type="button">Log in</button>
                         </div>
-                        <form id="f-signup" novalidate autocomplete="on">
+                        <form id="f-signup" novalidate autocomplete="on" hidden>
                             <div>
                                 <h2>Create account</h2>
                                 <p class="sub">Takes under a minute.</p>
@@ -895,10 +939,10 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
                             <div class="msg" id="su-msg" role="alert"></div>
                             <button class="btn" type="submit" id="su-btn"><span class="spin"></span><span class="t">Create account</span></button>
                         </form>
-                        <form id="f-login" novalidate hidden autocomplete="on">
+                        <form id="f-login" novalidate autocomplete="on">
                             <div>
                                 <h2>Welcome back</h2>
-                                <p class="sub">Log in to your Motherlode account.</p>
+                                <p class="sub">Log in to your Motherlode account. Accounts are made by the devs, so ask a dev if you don’t have one.</p>
                             </div>
                             <label class="f"><span class="l">Gamertag</span>
                                 <input type="text" id="li-user" maxlength="16" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Your gamertag" required>
@@ -925,7 +969,8 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
                         <nav class="ab-nav" aria-label="Primary">
                             <button type="button" class="ab-link" data-h="events" data-label="Events" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 21h8M10 17h4"/></svg><span>Events</span><i class="dot" id="join-dot" hidden></i></button>
                             <button type="button" class="ab-link" data-h="stats" data-label="Stats" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg><span>Stats</span></button>
-                            <button type="button" class="ab-link" data-h="players" data-label="Players" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.3.7 3.5 2.6 3.5 5.6"/></svg><span>Players</span></button>
+                            <button type="button" class="ab-link" data-h="model" data-label="Model" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M4 16c3 0 4-9 8-9s5 6 8 6"/><path d="M4 12.5c3 0 4.5-3 8-3s5 2 8 2" opacity=".5"/></svg><span>Model</span></button>
+                            <button type="button" class="ab-link" data-h="players" data-label="Players" aria-selected="false" id="mi-players" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.4c2.3.7 3.5 2.6 3.5 5.6"/></svg><span>Players</span></button>
                             <button type="button" class="ab-link" data-h="store" data-label="Store" aria-selected="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg><span>Store</span></button>
                             <button type="button" class="ab-link" data-h="host" data-label="Host" aria-selected="false" id="mi-host" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg><span>Host</span></button>
                             <button type="button" class="ab-link" data-h="admin" data-label="Admin" aria-selected="false" id="mi-admin" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.3 8-8 9-4.7-1-8-4.5-8-9V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg><span>Admin</span></button>
@@ -959,7 +1004,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
                 <!-- PROFILE -->
                 <div class="pane active" id="p-profile">
                     <h2 class="ptitle">Profile</h2>
-                    <p class="sub">This is how other players see you.</p>
+                    <p class="sub">Your account is private. Only you and the devs can see it.</p>
                     <div class="card inbox" id="inbox" hidden></div>
                     <div class="card mm" id="mymatch" hidden></div>
                     <div class="card mm" id="lastm" hidden></div>
@@ -1027,8 +1072,8 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
                     <p class="sub">Live and upcoming Motherlode events. Times are shown in Central time.</p>
                     <div id="event-card"></div>
                     <div id="ev-more"></div>
-                    <div class="sect-h"><h3>Open lobbies</h3><span id="lob-count"></span></div>
-                    <p class="sub" style="margin-top:0">Join an open lobby. The host picks players fairly when the game starts.</p>
+                    <div class="sect-h"><h3>Your match</h3><span id="lob-count"></span></div>
+                    <p class="sub" style="margin-top:0">Hosts put players into matches and save the results. When you’re added to a lobby it shows up here.</p>
                     <div class="msg" id="join-msg" role="alert" style="margin-bottom:12px"></div>
                     <div id="lobbies"></div>
                 </div>
@@ -1057,8 +1102,15 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
                 <!-- STATS -->
                 <div class="pane" id="p-stats">
                     <h2 class="ptitle">Stats</h2>
-                    <p class="sub">Your form, records, rivals and match history.</p>
+                    <p class="sub">Your form, records and match history.</p>
                     <div id="stats-body"></div>
+                </div>
+                <!-- MODEL -->
+                <div class="pane" id="p-model">
+                    <h2 class="ptitle">Model</h2>
+                    <p class="sub">Statistical models built from saved games: what to expect next game and where PR is heading. Private to you and the devs.</p>
+                    <div class="md-ctl" id="md-ctl"></div>
+                    <div id="md-body"></div>
                 </div>
                 <!-- LEADERBOARD -->
                 <div class="pane" id="p-board">
@@ -1758,16 +1810,16 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     events:function(){ return (G&&G.events)||[]; }, evState:function(e){ return evState(e); }, evWhen:function(e){ var w=evWhen(e,CENTRAL); return w.day+' \u00b7 '+w.time; }, refresh:function(){ pollGames(); },
     lobbyEvent:function(id){ var ls=(G&&G.lobbies)||[]; for(var i=0;i<ls.length;i++){ if(ls[i].id===id) return ls[i].event_key?evName(ls[i].event_key):''; } return ''; } };
   function syncAdminMenu(){
-    var d=isDev(), h=isHost(), a=$('mi-admin'), o=$('mi-host'); if(a) a.hidden=!d; if(o) o.hidden=!h;
+    var d=isDev(), h=isHost(), a=$('mi-admin'), o=$('mi-host'), pl=$('mi-players'); if(a) a.hidden=!d; if(o) o.hidden=!h; if(pl) pl.hidden=!d;
     var act=document.querySelector('.pane.active');
-    if(ME&&act&&((act.id==='p-admin'&&!d)||(act.id==='p-host'&&!h))) setTab('profile');
+    if(ME&&act&&((act.id==='p-admin'&&!d)||(act.id==='p-host'&&!h)||((act.id==='p-players'||act.id==='p-board')&&!d))) setTab('profile');
   }
-  var PANES=['profile','account','events','notifs','stats','board','players','store','admin','host'];
+  var PANES=['profile','account','events','notifs','stats','model','board','players','store','admin','host'];
   var NAVOF={board:'players'};   /* which nav item stays lit for sub-views */
   function setTab(name){
     if(name==='join') name='events';
     if(PANES.indexOf(name)<0) name='profile';
-    if((name==='admin'&&!isDev())||(name==='host'&&!isHost())) name='profile';
+    if((name==='admin'&&!isDev())||(name==='host'&&!isHost())||((name==='players'||name==='board')&&!isDev())) name='profile';
     var nav=NAVOF[name]||name;
     document.querySelectorAll('[data-h]').forEach(function(b){ b.setAttribute('aria-selected', b.getAttribute('data-h')===nav); });
     document.querySelectorAll('[data-go]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===name); });
@@ -1775,6 +1827,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     if(name==='store') renderStore();
     if(name==='notifs'){ loadNotifs(); updateChest(); }
     if(name==='stats') loadMyStats();
+    if(name==='model'&&window.__mlModelOpen) window.__mlModelOpen();
     if(name==='board') loadBoard();
     if(name==='players') loadPlayers();
     if(name==='admin'&&window.__mlAdminOpen) window.__mlAdminOpen();
@@ -2079,12 +2132,13 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
       body.appendChild(el('div','evempty',(EVLB.key===e.key&&EVLB.err)?EVLB.err:'Loading standings\u2026')); return;
     }
     var rows=EVLB.rows;
-    if(!rows.length){ body.appendChild(el('div','evempty','No results yet. Standings appear as soon as the host saves the first game.')); return; }
+    if(!rows.length){ body.appendChild(el('div','evempty',isDev()?'No results yet. Standings appear as soon as the host saves the first game.':'You haven\u2019t played a game in this event yet. Only the devs can see the full standings.')); return; }
     var me=ME&&ME.username, mine=rows.filter(function(r){ return r.username===me; })[0];
     var bar=el('div','evme');
     if(mine){ bar.appendChild(el('span',null,'Your rank')); bar.appendChild(el('b',null,'#'+mine.rank+' \u00b7 '+(mine.pts>0?'+':'')+mine.pts+' pts')); }
     else bar.appendChild(el('span',null,'You haven\u2019t played an event game yet.'));
     body.appendChild(bar);
+    if(!isDev()) body.appendChild(el('div','evempty','Full standings are private. Only the devs can see everyone\u2019s results.'));
     var lb=el('div','evlb'), hd=el('div','evrow head');
     ['#','Player','GP','W','K','A','Pts'].forEach(function(t,i){ hd.appendChild(el('span',i>1?'n':null,t)); }); lb.appendChild(hd);
     var names=rows.map(function(r){ return r.username; });
@@ -2111,6 +2165,9 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   function evBracket(body,e){
     if(EVDT.key!==e.key||!EVDT.d){ body.appendChild(el('div','evempty',(EVDT.key===e.key&&EVDT.err)?EVDT.err:'Loading…')); return; }
     var d=EVDT.d, su=d.signups||[], me=ME&&ME.username;
+    if(!isDev()){ var cnt=d.signup_count!==undefined?d.signup_count:su.length;
+      body.appendChild(el('div','evempty',(su.length?'You\u2019re signed up for this event':'You\u2019re not signed up for this event')+' \u00b7 '+cnt+' player'+(cnt===1?'':'s')+' signed up'+(d.has_bracket?' \u00b7 bracket drawn':'')+'.'));
+      body.appendChild(el('div','evempty','Hosts handle sign-ups and run the bracket. Brackets and other players are private, so only the devs can see them.')); return; }
     if(d.bracket&&d.bracket.rounds){ body.appendChild(BR.render(d.bracket,{me:me,open:openByName})); return; }
     var rounds=(d.design&&d.design.rounds)||[];
     if(rounds.length){
@@ -2134,19 +2191,17 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     var sig=JSON.stringify([e.key,e.signups,e.me_signed,e.signup_open,e.has_bracket,SIGNBUSY]); if(box.getAttribute('data-sig')===sig&&!box.hidden) return; box.setAttribute('data-sig',sig);
     box.hidden=false; box.textContent='';
     var txt=el('div','evsign-t'), n=+e.signups||0;
-    txt.appendChild(el('b',null,e.me_signed?'You’re signed up':(e.signup_open?'Sign-ups are open':'Sign-ups are closed')));
+    txt.appendChild(el('b',null,e.me_signed?'You’re signed up':'You’re not signed up'));
     txt.appendChild(el('small',null,n+' player'+(n===1?'':'s')+' signed up'+(e.has_bracket?' · bracket drawn':'')));
     box.appendChild(txt);
-    var b=el('button','btn small'+(e.me_signed?' ghost':'')); b.type='button';
-    if(e.me_signed){ b.textContent='Withdraw'; b.disabled=SIGNBUSY||e.has_bracket; if(e.has_bracket) b.title='The bracket has been drawn. Ask the host to remove you.'; }
-    else { b.textContent='Sign up'; b.disabled=SIGNBUSY||!e.signup_open; if(!e.signup_open) b.hidden=true; }
+    txt.lastChild.textContent+=' \u00b7 hosts handle sign-ups';
+    var b={};
     b.onclick=function(){
       SIGNBUSY=true; evSignUpdate(); msg('join-msg');
       call('event_signup',{p_key:e.key,p_on:!e.me_signed}).then(function(r){ e.me_signed=!!r.signed; e.signups=r.count; EVDT.at=0; if(EVTAB==='bracket') evFetchDT(true); })
         .catch(function(err){ var m=err.message||''; msg('join-msg',/SIGNUPS_CLOSED/.test(m)?'Sign-ups for this event are closed.':/BRACKET_LOCKED/.test(m)?'The bracket has already been drawn. Ask the host to remove you.':/EVENT_CLOSED/.test(m)?'This event has ended.':friendly(err)); })
         .then(function(){ SIGNBUSY=false; pollGames(); evSignUpdate(); });
     };
-    box.appendChild(b);
   }
   function evFetchLB(force){
     var e=EVCUR; if(!e||EVFETCH||EVST==='soon') return;
@@ -2164,8 +2219,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     cta.hidden=false; b.disabled=false; b.className='evbtn'; b.onclick=null;
     if(EVST==='live'){
       if(inEv){ b.textContent='You\u2019re in a lobby'; b.className='evbtn ghost'; b.onclick=goLobbies; sub.textContent=inEv.name+(inEv.status==='started'?' \u00b7 match started':' \u00b7 waiting for the host'); }
-      else if(open.length){ b.textContent='Join a lobby'; b.onclick=goLobbies; sub.textContent=open.length+(open.length===1?' lobby open':' lobbies open'); }
-      else { b.textContent='Waiting for a lobby'; b.disabled=true; sub.textContent='The host opens lobbies throughout the event.'; }
+      else { b.textContent='Waiting for the host'; b.disabled=true; b.className='evbtn ghost'; sub.textContent='Hosts put players into matches during the event.'; }
     } else if(EVST==='ended'){ b.textContent='View final standings'; b.onclick=function(){ evSetTab('board'); }; sub.textContent=''; }
     else cta.hidden=true;
   }
@@ -2203,6 +2257,7 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
       .then(function(){ miss.forEach(function(n){ delete AVpend[n]; }); if(G) renderGames(); });
   }
   function openByName(n){
+    if(!isDev()&&!(ME&&String(n).toLowerCase()===ME.username.toLowerCase())) return;
     call('list_players',{p_search:n}).then(function(rows){
       var p=rows.filter(function(r){ return r.username.toLowerCase()===n.toLowerCase(); })[0]||{username:n};
       openModal(p);
@@ -2234,21 +2289,16 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
   function renderGames(){
     var ls=G.lobbies, box=$('lobbies'); box.textContent='';
     renderEvent(); evSync();
-    $('join-dot').hidden=!ls.some(function(l){return l.status==='open'&&!l.me_in});
+    $('join-dot').hidden=true; ls=isDev()?ls:ls.filter(function(l){ return l.me_in; });
     var nOpen=ls.filter(function(l){ return l.status==='open'; }).length; $('lob-count').textContent=ls.length?(nOpen+' open'+(ls.length>nOpen?' \u00b7 '+(ls.length-nOpen)+' in progress':'')):'';
-    if(!ls.length) box.appendChild(el('div','empty','No lobbies right now. The host opens them during game nights and events.'));
+    if(!ls.length) box.appendChild(el('div','empty','You\u2019re not in a lobby right now. A host will add you when it\u2019s your turn to play.'));
     ls.forEach(function(l){
       var c=el('div','card lob'), m=el('div','mid');
       m.appendChild(el('div','rname',l.name));
       if(l.event_key) m.appendChild(el('div','evtag',evName(l.event_key)));
       m.appendChild(el('div','rsub',l.mode+' players \u00b7 '+l.joined+' joined'+(l.status==='started'?' \u00b7 started':'')));
       c.appendChild(m);
-      if(l.status==='open'){
-        var b=el('button','btn small'+(l.me_in?' ghost':''),l.me_in?'Leave':'Join'); b.type='button';
-        b.onclick=function(){ b.disabled=true; msg('join-msg');
-          call(l.me_in?'leave_lobby':'join_lobby',{p_lobby:l.id}).then(pollGames).catch(function(e){ msg('join-msg',friendly(e)); b.disabled=false; }); };
-        c.appendChild(b);
-      }
+      if(l.me_in) c.appendChild(el('span','evtag',l.status==='open'?'You\u2019re in':(l.me_picked?'Playing':'Sitting out')));
       box.appendChild(c);
     });
     var my=ls.filter(function(l){return l.me_in})[0], mm=$('mymatch'); mm.textContent=''; mm.hidden=!my;
@@ -2266,8 +2316,8 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
         t.appendChild(el('div','sub',my.name+' \u00b7 waiting for the host to start')); t.lastChild.style.margin='2px 0 0';
         h.appendChild(t); mm.appendChild(h);
       }
-      mm.appendChild(el('div','lbl2',(st?'Playing in the match':'Players in this lobby')+' ('+names.length+')'));
-      ensureAvatars(names); mm.appendChild(rchips(names,st?my.spawns:null));
+      if(names.length){ mm.appendChild(el('div','lbl2',(st?'Playing in the match':'Players in this lobby')+' ('+names.length+')'));
+      ensureAvatars(names); mm.appendChild(rchips(names,st?my.spawns:null)); }
     }
     var lm=$('lastm'); lm.textContent=''; lm.hidden=!G.last;
     if(G.last){
@@ -2338,6 +2388,189 @@ body.in-app #ad-evc .bd-fmt .seg { justify-self: start; }
     }).catch(function(err){ box.textContent=''; box.appendChild(el('div','empty',friendly(err))); });
     return box;
   }
+  /* ---------- MODEL page: statistical models built from a player's saved games ---------- */
+  var MD={who:'',mode:4,avg:'',n:10,H:null,P:null,err:'',seq:0,players:null};
+  function mdRng(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; var t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+  /* the same PR formula the server uses (pr_formula + pr_delta_for) */
+  function mdDelta(avg,pr,streak,kills,ace,place,mode){
+    var rp=Math.max(.5,Math.min(2,Math.max(+avg||5000,1)/Math.max(+pr||5000,1)));
+    var w=Math.max(0,Math.min(streak||0,5)), k=Math.max(0,Math.min(kills||0,mode-1)), a=ace>0?1:0;
+    var raw=Math.floor(20*w+200*rp*w+100*rp*k+20*a+a*Math.abs(200*rp)-200/rp);
+    var bonus=place===1?60:place===mode?0:place===mode-1?50:55;
+    var d=Math.max(-500,Math.min(1500,raw+bonus)); if(d===0) d=place<mode?1:-1;
+    return Math.max(d,-pr);
+  }
+  /* regularized incomplete beta + its inverse, for credible intervals on the placement model */
+  function mdLnGamma(z){ var c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,.1208650973866179e-2,-.5395239384953e-5],x=z,y=z,t=x+5.5; t-=(x+.5)*Math.log(t); var s=1.000000000190015; for(var j=0;j<6;j++) s+=c[j]/++y; return -t+Math.log(2.5066282746310005*s/x); }
+  function mdBetacf(a,b,x){ var qab=a+b,qap=a+1,qam=a-1,c=1,d=1-qab*x/qap; if(Math.abs(d)<1e-30)d=1e-30; d=1/d; var h=d;
+    for(var m=1;m<=200;m++){ var m2=2*m,aa=m*(b-m)*x/((qam+m2)*(a+m2)); d=1+aa*d; if(Math.abs(d)<1e-30)d=1e-30; c=1+aa/c; if(Math.abs(c)<1e-30)c=1e-30; d=1/d; h*=d*c;
+      aa=-(a+m)*(qab+m)*x/((a+m2)*(qap+m2)); d=1+aa*d; if(Math.abs(d)<1e-30)d=1e-30; c=1+aa/c; if(Math.abs(c)<1e-30)c=1e-30; d=1/d; var del=d*c; h*=del; if(Math.abs(del-1)<3e-7) break; } return h; }
+  function mdIbeta(x,a,b){ if(x<=0) return 0; if(x>=1) return 1; var bt=Math.exp(mdLnGamma(a+b)-mdLnGamma(a)-mdLnGamma(b)+a*Math.log(x)+b*Math.log(1-x));
+    return x<(a+1)/(a+b+2)?bt*mdBetacf(a,b,x)/a:1-bt*mdBetacf(b,a,1-x)/b; }
+  function mdBetaQ(p,a,b){ var lo=0,hi=1; for(var i=0;i<60;i++){ var m=(lo+hi)/2; if(mdIbeta(m,a,b)<p) lo=m; else hi=m; } return (lo+hi)/2; }
+  function mdPct(x){ return Math.round(x*100)+'%'; }
+  function mdQ(sorted,q){ var i=(sorted.length-1)*q, lo=Math.floor(i), hi=Math.ceil(i); return sorted[lo]+(sorted[hi]-sorted[lo])*(i-lo); }
+
+  function mdModel(){
+    var H=MD.H, P=MD.P, mode=MD.mode, avg=+MD.avg||+P.pr||5000, pr=+P.pr||5000, streak=+P.streak||0;
+    var ms=(H.matches||[]).slice().reverse(); /* oldest -> newest (last 50 games) */
+    var games=ms.map(function(m){ var pl=m.place!=null?+m.place:(m.won?1:null); return {place:pl==null?null:Math.min(pl,mode),kills:+m.kills||0,aces:+m.aces||0,delta:+m.delta||0,pr:+m.pr_after,at:m.at}; });
+    var known=games.filter(function(g){ return g.place!=null; }), n=known.length, ALPHA=2;
+    /* placement: Dirichlet(1,...,1) prior on all-time finishes */
+    var pc=H.places||{}, c=[0,+pc.p1||0,+pc.p2||0,+pc.p3||0,+pc.p4||0]; if(mode===3){ c[3]+=c[4]; c[4]=0; }
+    var N=0; for(var i=1;i<=mode;i++) N+=c[i];
+    var place=[]; for(i=1;i<=mode;i++){ var a=c[i]+1,b=N+mode-c[i]-1; place.push({p:i,n:c[i],mean:a/(a+b),lo:mdBetaQ(.1,a,b),hi:mdBetaQ(.9,a,b)}); }
+    /* expected PR change next game: your past games (bootstrap) blended with a flat prior worth 2 games */
+    var prior=[]; for(var pl=1;pl<=mode;pl++) for(var k=0;k<mode;k++) prior.push({place:pl,kills:k,aces:0});
+    function f(g){ return mdDelta(avg,pr,g.place===1?streak+1:0,g.kills,g.aces,g.place,mode); }
+    var sum=0,sum2=0; known.forEach(function(g){ var d=f(g); sum+=d; sum2+=d*d; });
+    var ps=0,ps2=0; prior.forEach(function(g){ var d=f(g); ps+=d; ps2+=d*d; }); ps/=prior.length; ps2/=prior.length;
+    var ev=(sum+ALPHA*ps)/(n+ALPHA), ev2=(sum2+ALPHA*ps2)/(n+ALPHA), sd=Math.sqrt(Math.max(0,ev2-ev*ev));
+    /* Monte Carlo: 2000 seasons of the next N games, PR and streak carried forward */
+    var S=2000, G=MD.n, rng=mdRng(H.matches.length*7919+mode*31+G+Math.round(avg)), steps=[]; for(i=0;i<=G;i++) steps.push(new Float64Array(S));
+    var up=0, endWins=0;
+    for(var s=0;s<S;s++){ var cp=pr, st=streak; steps[0][s]=cp;
+      for(var t=1;t<=G;t++){ var g=(n===0||rng()<ALPHA/(n+ALPHA))?prior[Math.floor(rng()*prior.length)]:known[Math.floor(rng()*n)];
+        st=g.place===1?st+1:0; if(g.place===1) endWins++; cp=Math.max(0,Math.round((cp+mdDelta(avg,cp,st,g.kills,g.aces,g.place,mode))*100)/100); steps[t][s]=cp; }
+      if(cp>pr) up++; }
+    var fan=steps.map(function(arr){ var a=Array.prototype.slice.call(arr).sort(function(x,y){return x-y}); return {p10:mdQ(a,.1),p25:mdQ(a,.25),p50:mdQ(a,.5),p75:mdQ(a,.75),p90:mdQ(a,.9)}; });
+    /* kills per game vs a Poisson fit */
+    var kg=games.map(function(g){ return g.kills; }), kn=kg.length, lam=kn?kg.reduce(function(x,y){return x+y},0)/kn:0;
+    var kvar=kn>1?kg.reduce(function(x,y){return x+(y-lam)*(y-lam)},0)/(kn-1):0, kmax=Math.max(3,kg.reduce(function(x,y){return Math.max(x,y)},0));
+    var kd=[]; for(k=0;k<=kmax;k++){ var obs=kg.filter(function(x){return x===k}).length, pois=Math.exp(-lam+k*Math.log(lam||1e-9)-mdLnGamma(k+1)); if(k===kmax) pois=Math.max(0,1-kd.reduce(function(x,y){return x+y.pois},0)); kd.push({k:k,obs:kn?obs/kn:0,n:obs,pois:lam?pois:(k===0?1:0)}); }
+    var aceG=games.filter(function(g){return g.aces>0}).length, ace={mean:(aceG+1)/(kn+2),lo:mdBetaQ(.1,aceG+1,kn-aceG+1),hi:mdBetaQ(.9,aceG+1,kn-aceG+1),n:aceG};
+    /* form trend: least-squares line through PR change of the last 20 games */
+    var tr=games.slice(-20), m=tr.length, trend=null;
+    if(m>=5){ var mx=(m-1)/2, my=tr.reduce(function(x,g){return x+g.delta},0)/m, sxx=0,sxy=0,syy=0;
+      tr.forEach(function(g,i){ sxx+=(i-mx)*(i-mx); sxy+=(i-mx)*(g.delta-my); syy+=(g.delta-my)*(g.delta-my); });
+      var slope=sxy/sxx, r2=syy?sxy*sxy/(sxx*syy):0, resid=Math.max(0,syy-slope*sxy), se=m>2?Math.sqrt(resid/(m-2)/sxx):0, tt=se?slope/se:0;
+      trend={slope:slope,r2:r2,t:tt,m:m,mean:my}; }
+    return {games:games,n:n,N:N,place:place,ev:ev,sd:sd,fan:fan,up:up/S,winsPer:endWins/S/G,lam:lam,kvar:kvar,kd:kd,kn:kn,ace:ace,trend:trend,pr:pr,avg:avg,streak:streak};
+  }
+
+  function mdSvg(tag,attrs){ var e=document.createElementNS('http://www.w3.org/2000/svg',tag); for(var k in attrs) e.setAttribute(k,attrs[k]); return e; }
+  function mdChart(R){
+    var mb=$('md-body'), W=Math.max(300,Math.round(((mb&&mb.clientWidth)||640)-26)), Hh=Math.round(Math.max(220,Math.min(320,W*.42))), wrap=el('div','md-chart'), L=52, Rt=12, T=14, B=26;
+    var hg=R.games.filter(function(g){return !isNaN(g.pr)}), hist=hg.map(function(g){return g.pr}); if(hg.length) hist.unshift(Math.round((hg[0].pr-hg[0].delta)*100)/100);
+    hist.push(R.pr); /* connect to the current PR */
+    var h=hist.length-1, G=R.fan.length-1, x0=-h, x1=G;
+    var vals=hist.concat(R.fan.map(function(f){return f.p10}),R.fan.map(function(f){return f.p90})), lo=Math.min.apply(null,vals), hi=Math.max.apply(null,vals), pad=Math.max(50,(hi-lo)*.08); lo=Math.max(0,lo-pad); hi+=pad;
+    function X(v){ return L+(v-x0)/Math.max(1,x1-x0)*(W-L-Rt); } function Y(v){ return T+(hi-v)/(hi-lo)*(Hh-T-B); }
+    var svg=mdSvg('svg',{viewBox:'0 0 '+W+' '+Hh,role:'img','aria-label':'PR history and projected PR for the next '+G+' games'});
+    var step=Math.pow(10,Math.floor(Math.log10((hi-lo)/4))), nice=[1,2,2.5,5,10].map(function(m){return m*step}).filter(function(s){return (hi-lo)/s<=5})[0]||step*10;
+    for(var v=Math.ceil(lo/nice)*nice; v<=hi; v+=nice){ svg.appendChild(mdSvg('line',{x1:L,x2:W-Rt,y1:Y(v),y2:Y(v),class:'md-grid'})); var tx=mdSvg('text',{x:L-8,y:Y(v)+4,'text-anchor':'end',class:'md-ax'}); tx.textContent=Math.round(v).toLocaleString(); svg.appendChild(tx); }
+    function area(a,b){ var d=''; R.fan.forEach(function(f,i){ d+=(i?'L':'M')+X(i)+' '+Y(f[a]); }); for(var i=G;i>=0;i--) d+='L'+X(i)+' '+Y(R.fan[i][b]); return d+'Z'; }
+    svg.appendChild(mdSvg('path',{d:area('p10','p90'),class:'md-band1'})); svg.appendChild(mdSvg('path',{d:area('p25','p75'),class:'md-band2'}));
+    svg.appendChild(mdSvg('path',{d:R.fan.map(function(f,i){return (i?'L':'M')+X(i)+' '+Y(f.p50)}).join(''),class:'md-med'}));
+    if(h>0) svg.appendChild(mdSvg('path',{d:hist.map(function(p,i){return (i?'L':'M')+X(i-h)+' '+Y(p)}).join(''),class:'md-hist'}));
+    svg.appendChild(mdSvg('line',{x1:X(0),x2:X(0),y1:T,y2:Hh-B,class:'md-now'}));
+    [[x0,h?h+' games ago':''],[0,'Now'],[G,'+'+G+' games']].forEach(function(a){ if(!a[1]) return; if(a[0]===0&&(X(G)-X(0)<110||X(0)-X(x0)<110)) return; var t=mdSvg('text',{x:X(a[0]),y:Hh-8,'text-anchor':a[0]===x0?'start':a[0]===G?'end':'middle',class:'md-ax'}); t.textContent=a[1]; svg.appendChild(t); });
+    svg.appendChild(mdSvg('circle',{cx:X(0),cy:Y(R.pr),r:4.5,class:'md-dot'}));
+    var cx=mdSvg('line',{y1:T,y2:Hh-B,class:'md-cross',visibility:'hidden'}), cd=mdSvg('circle',{r:4,class:'md-dot',visibility:'hidden'}); svg.appendChild(cx); svg.appendChild(cd);
+    var tip=el('div','md-tip'); tip.hidden=true;
+    var hit=mdSvg('rect',{x:L,y:T,width:W-L-Rt,height:Hh-T-B,fill:'transparent'}); svg.appendChild(hit);
+    function move(ev){ var r=svg.getBoundingClientRect(), px=(ev.clientX-r.left)/r.width*W, i=Math.round(x0+(px-L)/(W-L-Rt)*(x1-x0)); i=Math.max(x0,Math.min(x1,i));
+      var yv, txt; if(i<=0){ yv=hist[i+h]; txt=(i===0?'Now':(-i)+' game'+(i===-1?'':'s')+' ago')+'\nPR '+fmtPR(yv); }
+      else { var f=R.fan[i]; yv=f.p50; txt='After '+i+' more game'+(i===1?'':'s')+'\nMost likely '+fmtPR(Math.round(f.p50))+'\n80% range '+fmtPR(Math.round(f.p10))+' – '+fmtPR(Math.round(f.p90)); }
+      cx.setAttribute('x1',X(i)); cx.setAttribute('x2',X(i)); cx.setAttribute('visibility','visible'); cd.setAttribute('cx',X(i)); cd.setAttribute('cy',Y(yv)); cd.setAttribute('visibility','visible');
+      tip.textContent=txt; tip.hidden=false; var lx=X(i)/W*r.width; tip.style.left=Math.min(Math.max(lx,70),r.width-70)+'px'; tip.style.top=(Y(yv)/Hh*r.height-12)+'px'; }
+    function leave(){ cx.setAttribute('visibility','hidden'); cd.setAttribute('visibility','hidden'); tip.hidden=true; }
+    hit.addEventListener('pointermove',move); hit.addEventListener('pointerdown',move); hit.addEventListener('pointerleave',leave);
+    wrap.appendChild(svg); wrap.appendChild(tip);
+    var lg=el('div','md-leg'); [['md-k-hist','Your PR'],['md-k-med','Most likely path'],['md-k-band','50% and 80% ranges']].forEach(function(a){ var s=el('span'); s.appendChild(el('i',a[0])); s.appendChild(document.createTextNode(a[1])); lg.appendChild(s); });
+    wrap.appendChild(lg); return wrap;
+  }
+
+  function mdRender(){
+    var box=$('md-body'); if(!box) return; box.textContent='';
+    if(MD.err){ box.appendChild(el('div','empty',MD.err)); return; }
+    if(!MD.H||!MD.P){ box.appendChild(el('div','empty','Loading model…')); return; }
+    var R=mdModel(), who=MD.P.username, self=ME&&who.toLowerCase()===ME.username.toLowerCase();
+    if(R.n<3){ box.appendChild(el('div','empty',(self?'You need':who+' needs')+' at least 3 saved games before the models can say anything useful. '+(R.n?'So far: '+R.n+'.':''))); return; }
+    var g=el('div','kpis');
+    kpi(g,'Expected PR next game',signed(Math.round(R.ev)),'±'+Math.round(R.sd)+' typical swing');
+    kpi(g,'Win chance next game',mdPct(R.place[0].mean),'80% range '+mdPct(R.place[0].lo)+'–'+mdPct(R.place[0].hi));
+    var end=R.fan[R.fan.length-1];
+    kpi(g,'PR after '+MD.n+' games',fmtPR(Math.round(end.p50)),'80% range '+fmtPR(Math.round(end.p10))+'–'+fmtPR(Math.round(end.p90)));
+    kpi(g,'Chance to finish higher',mdPct(R.up),'than '+fmtPR(R.pr)+' PR now');
+    box.appendChild(g);
+    sect(box,'PR projection','next '+MD.n+' games');
+    box.appendChild(mdChart(R));
+    box.appendChild(el('div','ins-note','Simulated 2,000 times from '+(self?'your':who+'’s')+' last '+R.n+' games, using the real PR formula with '+(self?'your':'their')+' win streak carried forward. Shaded areas show where PR lands 50% and 80% of the time.'));
+    /* placement */
+    sect(box,'Placement model',R.N+' game'+(R.N===1?'':'s'));
+    var pl=el('div','md-rows'), PN2=['','1st','2nd','3rd','4th'];
+    R.place.forEach(function(p){ var r=el('div','md-row'); r.title=PN2[p.p]+': '+mdPct(p.mean)+' (80% range '+mdPct(p.lo)+'–'+mdPct(p.hi)+') · '+p.n+' of '+R.N+' games';
+      r.appendChild(el('span','md-l',PN2[p.p])); var tr=el('div','md-track'), bar=el('i','md-bar'); bar.style.width=(p.mean*100)+'%'; bar.style.setProperty('--c',PLC[p.p]); tr.appendChild(bar);
+      var ci=el('i','md-ci'); ci.style.left=(p.lo*100)+'%'; ci.style.width=Math.max(.5,(p.hi-p.lo)*100)+'%'; tr.appendChild(ci); r.appendChild(tr);
+      var v=el('span','md-v'); v.appendChild(el('b',null,mdPct(p.mean))); v.appendChild(el('em',null,p.n+' of '+R.N)); r.appendChild(v); pl.appendChild(r); });
+    box.appendChild(pl);
+    box.appendChild(el('div','ins-note','Chance of each finish in a '+MD.mode+'-player game. The thin line is the 80% range, which shrinks as more games are saved.'+(MD.mode===3?' 4th-place finishes count as last.':'')));
+    /* kills */
+    sect(box,'Kills model',R.kn+' games');
+    var kl=el('div','md-leg'); [['md-k-obs',self?'Your games':who+'\u2019s games'],['md-k-pois','Poisson fit']].forEach(function(a){ var s=el('span'); s.appendChild(el('i',a[0])); s.appendChild(document.createTextNode(a[1])); kl.appendChild(s); }); box.appendChild(kl);
+    var kr=el('div','md-rows'), kmax=R.kd.length-1;
+    R.kd.forEach(function(d){ var r=el('div','md-row'), lbl=(d.k===kmax?d.k+'+':String(d.k))+' kill'+(d.k===1&&d.k!==kmax?'':'s'); r.title=lbl+': '+mdPct(d.obs)+' of games ('+d.n+') · Poisson fit '+mdPct(d.pois);
+      r.appendChild(el('span','md-l',lbl)); var tr=el('div','md-track'), bar=el('i','md-bar'); bar.style.width=(d.obs*100)+'%'; tr.appendChild(bar); var mk=el('i','md-mk'); mk.style.left=(d.pois*100)+'%'; tr.appendChild(mk); r.appendChild(tr);
+      var v=el('span','md-v'); v.appendChild(el('b',null,mdPct(d.obs))); v.appendChild(el('em',null,'fit '+mdPct(d.pois))); r.appendChild(v); kr.appendChild(r); });
+    box.appendChild(kr);
+    var disp=R.lam?R.kvar/R.lam:1;
+    box.appendChild(el('div','ins-note','Average '+R.lam.toFixed(2)+' kills per game. '+(R.kn<8?'More games are needed to judge how streaky the kills are.':disp>1.4?'Kills are streakier than the Poisson model expects: big games and empty games both happen more often.':disp<.7?'Kills are steadier than the Poisson model expects: you get about the same number most games.':'The Poisson model fits well: kills look like steady, random chances each game.')+' Ace chance per game: '+mdPct(R.ace.mean)+' (80% range '+mdPct(R.ace.lo)+'–'+mdPct(R.ace.hi)+').'));
+    /* trend */
+    sect(box,'Form trend',R.trend?'last '+R.trend.m+' games':'');
+    var tg=el('div','kpis');
+    if(R.trend){ var T2=R.trend, sig=Math.abs(T2.t)>=2;
+      kpi(tg,'Trend',sig?(T2.slope>0?'Improving':'Slipping'):'Steady','PR gains '+(T2.slope>=0?'up ':'down ')+Math.abs(T2.slope).toFixed(1)+' each game');
+      kpi(tg,'Average PR per game',signed(Math.round(T2.mean)),'over the last '+T2.m+' games');
+      kpi(tg,'Fit (R²)',T2.r2.toFixed(2),sig?'clear pattern':'mostly noise');
+    } else kpi(tg,'Trend','—','needs 5 or more games');
+    box.appendChild(tg);
+    var det=el('details','md-how'); det.appendChild(el('summary',null,'How these models work'));
+    ['Placement: each finish starts with an even chance, then your real results take over (a Dirichlet model). Ranges are 80% credible intervals.',
+     'Expected PR: runs the same PR formula the server uses on your recent games, with a little weight (2 games) on an even spread of results so a short history doesn’t overreact.',
+     'Projection: replays random games from your history 2,000 times for the chosen number of games, carrying PR and win streak forward each game. The lobby average PR stays at the value you set.',
+     'Kills: compares how often you get 0, 1, 2… kills with a Poisson model that has the same average.',
+     'Trend: a straight line fitted through the PR change of your last 20 games. It only says Improving or Slipping when the slope is clearly bigger than the noise (t ≥ 2).'
+    ].forEach(function(t){ det.appendChild(el('p',null,t)); });
+    box.appendChild(det);
+  }
+
+  function mdLoad(name){
+    var seq=++MD.seq; MD.H=null; MD.P=null; MD.err=''; mdRender();
+    var self=ME&&name.toLowerCase()===ME.username.toLowerCase();
+    var pP=self?Promise.resolve(ME):call('list_players',{p_search:name}).then(function(rows){ return (rows||[]).filter(function(r){ return r.username.toLowerCase()===name.toLowerCase(); })[0]; });
+    Promise.all([call('player_history',{p_username:name}),pP]).then(function(r){ if(seq!==MD.seq) return;
+      if(!r[1]){ MD.err='No player called '+name+'.'; mdRender(); return; }
+      MD.H=r[0]; MD.P=r[1]; MD.who=r[1].username; if(!MD.avg) MD.avg=String(Math.round(+r[1].pr||5000)); mdControls(); mdRender(); })
+      .catch(function(e){ if(seq!==MD.seq) return; MD.err=/not found/i.test(e.message||'')?'No player called '+name+'.':friendly(e); mdRender(); });
+  }
+
+  function mdControls(){
+    var c=$('md-ctl'); if(!c) return; c.textContent='';
+    if(isDev()){ var f=el('label','md-f'); f.appendChild(el('span',null,'Player'));
+      var inp=el('input'); inp.type='text'; inp.value=MD.who||''; inp.setAttribute('list','md-dl'); inp.autocomplete='off'; inp.spellcheck=false;
+      var dl=el('datalist'); dl.id='md-dl'; (MD.players||[]).forEach(function(u){ var o=el('option'); o.value=u; dl.appendChild(o); });
+      inp.onchange=function(){ var v=inp.value.trim(); if(v&&v.toLowerCase()!==String(MD.who).toLowerCase()){ MD.avg=''; mdLoad(v); } };
+      inp.onkeydown=function(e){ if(e.key==='Enter'){ e.preventDefault(); inp.onchange(); } };
+      f.appendChild(inp); f.appendChild(dl); c.appendChild(f); }
+    function seg(lbl,opts,cur,set){ var f=el('div','md-f'); f.appendChild(el('span',null,lbl)); var s=el('div','seg2'); s.setAttribute('role','group'); s.setAttribute('aria-label',lbl);
+      opts.forEach(function(o){ var b=el('button',o===cur?'on':'',String(o)); b.type='button'; b.setAttribute('aria-pressed',o===cur); b.onclick=function(){ set(o); mdControls(); mdRender(); }; s.appendChild(b); }); f.appendChild(s); c.appendChild(f); }
+    seg('Lobby size',[3,4],MD.mode,function(v){ MD.mode=v; });
+    seg('Games to project',[5,10,25,50],MD.n,function(v){ MD.n=v; });
+    var af=el('label','md-f'); af.appendChild(el('span',null,'Lobby average PR')); var ai=el('input'); ai.type='number'; ai.min='0'; ai.step='50'; ai.inputMode='numeric'; ai.value=MD.avg;
+    var aT; ai.oninput=function(){ clearTimeout(aT); aT=setTimeout(function(){ if(+ai.value>0){ MD.avg=ai.value; mdRender(); } },350); };
+    af.appendChild(ai); c.appendChild(af);
+  }
+
+  function openModel(){
+    if(!ME) return;
+    if(MD.me!==ME.username){ MD.me=ME.username; MD.who=''; MD.players=null; }
+    if(!MD.who||(!isDev()&&MD.who.toLowerCase()!==ME.username.toLowerCase())){ MD.who=ME.username; MD.avg=''; }
+    if(isDev()&&!MD.players) call('list_players',{p_search:''}).then(function(rows){ MD.players=(rows||[]).map(function(r){return r.username}).sort(function(a,b){return a.toLowerCase()<b.toLowerCase()?-1:1}); mdControls(); }).catch(function(){});
+    mdControls(); mdLoad(MD.who);
+  }
+  window.__mlModelOpen=openModel;
+  var mdRT, mdW=0; window.addEventListener('resize',function(){ clearTimeout(mdRT); mdRT=setTimeout(function(){ var p=$('p-model'), b=$('md-body'); if(p&&p.classList.contains('active')&&b&&Math.abs(b.clientWidth-mdW)>40){ mdW=b.clientWidth; mdRender(); } },200); });
   function loadMyStats(){ var b=$('stats-body'); b.textContent=''; if(ME){ b.appendChild(insightsNode(ME)); b.appendChild(histNode(ME.username,ME,true)); } }
 
   /* ---------- insights (Stats page) ---------- */
